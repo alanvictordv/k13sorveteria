@@ -1,0 +1,2 @@
+C:\Users\Alan\Source\Repos\k13sorveteria\KTreze.Dados\obj\Debug\KTreze.Dados.csprojResolveAssemblyReference.cache
+C:\Users\Alan\Source\Repos\k13sorveteria\KTreze.Dados\obj\Debug\KTreze.Dados.csproj.CoreCompileInputs.cache
