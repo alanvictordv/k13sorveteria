@@ -55,3 +55,6 @@ C:\Users\Alan\source\repos\k13sorveteria\Ktreze.Web\bin\System.Diagnostics.Diagn
 C:\Users\Alan\source\repos\k13sorveteria\Ktreze.Web\bin\Antlr3.Runtime.pdb
 C:\Users\Alan\source\repos\k13sorveteria\Ktreze.Web\bin\Microsoft.AspNet.TelemetryCorrelation.xml
 C:\Users\Alan\source\repos\k13sorveteria\Ktreze.Web\bin\System.Diagnostics.DiagnosticSource.xml
+C:\Users\Alan\Source\Repos\k13sorveteria\Ktreze.Web\bin\KTreze.Dados.dll
+C:\Users\Alan\Source\Repos\k13sorveteria\Ktreze.Web\bin\KTreze.Dados.pdb
+C:\Users\Alan\Source\Repos\k13sorveteria\Ktreze.Web\bin\KTreze.Dados.dll.config
