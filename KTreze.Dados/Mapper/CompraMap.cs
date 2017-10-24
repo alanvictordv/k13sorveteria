@@ -1,23 +1,25 @@
-﻿//using FluentNHibernate.Mapping;
-//using KTreze.Dados.Entidades;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using FluentNHibernate.Mapping;
+using KTreze.Dados.Entidades;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-//namespace KTreze.Dados.Mapper
-//{
-//    public class CompraMap : ClassMap<Compra>
-//    {
-//        public CompraMap()
-//        {
-//            Table("compra");
+namespace KTreze.Dados.Mapper
+{
+    public class CompraMap : ClassMap<Compra>
+    {
+        public CompraMap()
+        {
+            Table("compra");
 
-//            Id(p => p.Id, "id").GeneratedBy.Identity();
+            Id(p => p.Id, "id_compra").GeneratedBy.Identity();
 
-//            Map(p => p.Preco, "preco").Not.Nullable();
-//            Map(p => p.DataHora, "data_hora").Not.Nullable();
-//        }
-//    }
-//}
+            Map(p => p.Preco, "preco").Not.Nullable();
+            Map(p => p.DataHora, "data_hora").Not.Nullable();
+
+            HasMany(p => p.ProdCompra).KeyColumn("id_compra").Inverse();
+        }
+    }
+}

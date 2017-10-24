@@ -11,5 +11,7 @@ namespace KTreze.Dados.Entidades
         public virtual int Id { get; set; }
         public virtual float Preco { get; set; }
         public virtual DateTime DataHora { get; set; }
+
+        public virtual ICollection<ProdCompra> ProdCompra { get; set; }
     }
 }
