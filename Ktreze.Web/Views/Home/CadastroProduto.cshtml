@@ -52,11 +52,14 @@
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
+        <p>
+            @ViewBag.Mensagem
+        </p>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Voltar", "Index")
 </div>
 
 @section Scripts {

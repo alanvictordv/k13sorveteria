@@ -45,48 +45,15 @@ namespace Ktreze.Web.Controllers
                 prod.PrecoVenda = model.PrecoVenda;
 
                 pDados.Inserir(prod);
+
+                ViewBag.Mensagem = "Produto cadastrado com sucesso.";
+                ModelState.Clear();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ViewBag.Mensagem = e.Message;
             }
             return View("CadastroProduto", new ProdutoModel());
         }
-        //[Authorize]
-        //public ActionResult Cadastro()
-        //{
-        //    return View(new ProcessoModel());
-        //}
-        //[Authorize]
-        //public ActionResult Cadastrar(ProcessoModel model)
-        //{
-        //    try
-        //    {
-        //        pBusiness = new ProcessoBusiness();
-        //        pBusiness.Service = new ProcessoData();
-
-        //        cBusiness = new CategoriaBusiness();
-        //        cBusiness.Service = new CategoriaData();
-
-        //        Processo p = new Processo();
-        //        p.numeroProcesso = model.NumeroProcesso;
-        //        p.autor = model.Autor;
-        //        p.reu = model.Reu;
-        //        p.DataHoraInicio = model.DataHoraInicio;
-        //        p.DataHoraFim = model.DataHoraFim;
-        //        p.Categoria = cBusiness.Service.Find(model.IdCategoria);
-        //        p.Usuario = (Usuario)Session["usuariologado"];
-
-        //        pBusiness.CadastrarProcesso(p);
-
-        //        ViewBag.Mensagem = "Processo cadastrado com sucesso.";
-        //        ModelState.Clear();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        ViewBag.Mensagem = e.Message;
-        //    }
-        //    return View("Cadastro", new ProcessoModel());
-        //}
     }
 }
