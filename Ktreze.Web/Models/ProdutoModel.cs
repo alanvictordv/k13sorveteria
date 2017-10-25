@@ -25,9 +25,7 @@ namespace Ktreze.Web.Models
 
         [Required(ErrorMessage = "Por favor, informe o preço de compra.")]
         [Display(Name = "Preço de compra:")] //label
-        //[DefaultValue("")]
-        public decimal? PrecoCompra { get; set; } = null; //campo
-                        
+        public decimal? PrecoCompra { get; set; } = null; //campo                  
 
     }
 }

@@ -55,5 +55,26 @@ namespace Ktreze.Web.Controllers
             }
             return View("CadastroProduto", new ProdutoModel());
         }
+        public ActionResult ConsultaProduto()
+        {
+            ProdutoDados pDados = new ProdutoDados();
+
+            List<ProdutoModel> listpm = new List<ProdutoModel>();
+            List<Produto> lista = (List<Produto>)pDados.ListarTodos();
+            
+            foreach(Produto p in lista)
+            {
+                ProdutoModel pm = new ProdutoModel();
+                pm.Id = p.Id;
+                pm.Codigo = p.Codigo;
+                pm.Nome = p.Nome;
+                pm.PrecoCompra = p.PrecoCompra;
+                pm.PrecoVenda = p.PrecoVenda;
+
+                listpm.Add(pm);
+            }
+
+            return View(listpm);
+        }
     }
 }
