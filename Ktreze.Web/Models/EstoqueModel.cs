@@ -9,8 +9,10 @@ namespace Ktreze.Web.Models
 {
     public class EstoqueModel
     {
-        public Produto Produto { get; set; }
-        public Freezer Freezer { get; set; }
+        public string CodProduto { get; set; }
+        public string NomeProduto { get; set; }
+        public string Freezer { get; set; }
+        public string DescFreezer { get; set; }
         public int Quantidade { get; set; }
     }
 }
