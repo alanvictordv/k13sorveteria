@@ -11,7 +11,7 @@ namespace Ktreze.Web.Controllers
 {
     public class CompraController : Controller
     {
-        List<CompraModel> listaCompraModel = new List<CompraModel>();
+        
         public static decimal? AcumulaPreco;
 
         // GET: Compra
@@ -37,6 +37,11 @@ namespace Ktreze.Web.Controllers
             return View();
         }
 
+        public ActionResult InstanciaConsulta()
+        {
+            Session["Lista"] = null;
+            return RedirectToAction("ConsultaCompra");
+        }
         public ActionResult ConsultaCompra()
         {
             EstoqueDados eDados = new EstoqueDados();
@@ -46,37 +51,33 @@ namespace Ktreze.Web.Controllers
             List<CompraModel> listcm = new List<CompraModel>();
             List<Produto> lista = (List<Produto>)pDados.ListarTodos();
 
-            foreach (Produto p in lista)
-            {
-                CompraModel cm = new CompraModel();
+            CompraModel cm = new CompraModel();
+            cm.ListagemProdutos = lista;
 
-                cm.CodProd = p.Codigo;
-                cm.NomeProd = p.Nome;
-                cm.PrecoCompra = p.PrecoCompra;
-
-                listcm.Add(cm);
-            }
-
-            return View(listcm);
+            return View(cm);
         }
 
-        public ActionResult ConsultaListaCompra(int id)
+        public ActionResult SelecionarProduto(int id)
         {
             ProdutoDados pDados = new ProdutoDados();
             Produto p = pDados.ObterPorId(id);
+
+            List<Produto> lista = (List<Produto>)pDados.ListarTodos();
+            List<Produto> listaProd = new List<Produto>();
+
+            if(Session["Lista"] != null)
+            listaProd = (List<Produto>)Session["Lista"];
+
+            listaProd.Add(p);
+
             CompraModel cm = new CompraModel();
 
-            foreach (CompraModel item in listaCompraModel)
-            {
-                AcumulaPreco += item.PrecoCompra;
-            }
+            cm.ListagemProdutos = lista;
+            cm.ListagemProdutosCompra = listaProd;
 
-            cm.CodProd = p.Codigo;
-            cm.NomeProd = p.Nome;
-            cm.PrecoCompra = p.PrecoCompra;
+            Session["Lista"] = cm.ListagemProdutosCompra;
 
-            return View();
+            return View("ConsultaCompra", cm);
         }
-
     }
 }

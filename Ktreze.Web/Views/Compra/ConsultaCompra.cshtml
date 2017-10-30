@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Ktreze.Web.Models.CompraModel>
+﻿@model Ktreze.Web.Models.CompraModel
 
 @{
     ViewBag.Title = "ConsultaCompra";
@@ -8,44 +8,104 @@
 
 <div class="row">
     <div class="col-md-3">
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.CodProd)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NomeProd)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PrecoCompra)
-                </th>
-                <th></th>
-            </tr>
+        @if (Model != null && Model.ListagemProdutos != null)
+        {
+            @*<div>
+                @Html.ActionLink("Gerar Relatorio", "GeraRelatorio2", "", new { @class = "btn btn-success" })
+                @Html.ActionLink("Gerar Gráfico", "GerarGrafico", "", new { @class = "btn btn-success" })
+            </div>*@
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CodProd)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NomeProd)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PrecoCompra)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>
-                </tr>
+        if (Model.ListagemProdutos.Count > 0)
+        {
+            <div class="tabela">
+                <table class="table table-hover" id="conteudo">
+                    <thead>
+                        <tr>
+                            <th>Código do Produto</th>
+                            <th>Nome</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in Model.ListagemProdutos)
+                        {
+                            <tr>
+                                <td> @t.Codigo</td>
+                                <td> @t.Nome </td>
+
+                                <td>
+                                    @Html.ActionLink("Selecionar", "SelecionarProduto",
+                                new { id = t.Id },
+                                new { @class = "btn btn-success btn-xs" })
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7"> Quantidade: @Model.ListagemProdutos.Count </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        }
+        else
+        {
+            <h4>Nenhuma tarefa encontrada.</h4>
             }
-
-        </table>
+        }
     </div>
-    <div class="col-md-9"></div>
+    <div class="col-md-9">
+        @if (Model != null && Model.ListagemProdutosCompra != null)
+        {
+            @*<div>
+                @Html.ActionLink("Gerar Relatorio", "GeraRelatorio2", "", new { @class = "btn btn-success" })
+                @Html.ActionLink("Gerar Gráfico", "GerarGrafico", "", new { @class = "btn btn-success" })
+            </div>*@
+
+            if (Model.ListagemProdutosCompra.Count > 0)
+            {
+                <div class="tabela">
+                    <table class="table table-hover" id="conteudo">
+                        <thead>
+                            <tr>
+                                <th>Código do Produto</th>
+                                <th>Nome</th>
+                                <th>Preço de Compra</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var t in Model.ListagemProdutosCompra)
+                            {
+                                <tr>
+                                    <td> @t.Codigo</td>
+                                    <td> @t.Nome </td>
+                                    <td> @t.PrecoCompra </td>
+
+                                    <td>
+                                        @Html.ActionLink("Excluir", "Deletar",
+                                new { id = t.Id },
+                                new { @class = "btn btn-danger btn-sm" })
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7"> Quantidade: @Model.ListagemProdutosCompra.Count </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <h4>Nenhuma tarefa encontrada.</h4>
+            }
+        }
+
+    </div>
 </div>

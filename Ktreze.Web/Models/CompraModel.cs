@@ -10,10 +10,8 @@ namespace Ktreze.Web.Models
 {
     public class CompraModel
     {
-        public string CodProd { get; set; }
-        public string NomeProd { get; set; }
-        public decimal? PrecoCompra { get; set; }
-        public decimal? PrecoTotal { get; set; }
+        public List<Produto> ListagemProdutos { get; set; }
+        public List<Produto> ListagemProdutosCompra { get; set; }
     }
 
     public class CadastroCompraModel
