@@ -79,5 +79,36 @@ namespace Ktreze.Web.Controllers
 
             return View("ConsultaCompra", cm);
         }
+        public ActionResult Deletar(int id)
+        {
+            ProdutoDados pDados = new ProdutoDados();
+            //Produto p = pDados.ObterPorId(id);
+
+            List<Produto> lista = (List<Produto>)pDados.ListarTodos();
+            List<Produto> listaProd = new List<Produto>();
+            List<Produto> listaProd2 = new List<Produto>();
+
+            if (Session["Lista"] != null)
+                listaProd = (List<Produto>)Session["Lista"];
+
+            Session["Lista"] = null;
+
+            foreach(Produto p in listaProd)
+            {
+                if(p.Id != id)
+                {
+                    listaProd2.Add(p);
+                }
+            }
+
+            CompraModel cm = new CompraModel();
+
+            cm.ListagemProdutos = lista;
+            cm.ListagemProdutosCompra = listaProd2;
+
+            Session["Lista"] = cm.ListagemProdutosCompra;
+
+            return View("ConsultaCompra", cm);
+        }
     }
 }
