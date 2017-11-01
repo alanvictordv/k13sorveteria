@@ -45,48 +45,36 @@ namespace Ktreze.Web.Controllers
                 prod.PrecoVenda = model.PrecoVenda;
 
                 pDados.Inserir(prod);
+
+                ViewBag.Mensagem = "Produto cadastrado com sucesso.";
+                ModelState.Clear();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ViewBag.Mensagem = e.Message;
             }
             return View("CadastroProduto", new ProdutoModel());
         }
-        //[Authorize]
-        //public ActionResult Cadastro()
-        //{
-        //    return View(new ProcessoModel());
-        //}
-        //[Authorize]
-        //public ActionResult Cadastrar(ProcessoModel model)
-        //{
-        //    try
-        //    {
-        //        pBusiness = new ProcessoBusiness();
-        //        pBusiness.Service = new ProcessoData();
+        public ActionResult ConsultaProduto()
+        {
+            ProdutoDados pDados = new ProdutoDados();
 
-        //        cBusiness = new CategoriaBusiness();
-        //        cBusiness.Service = new CategoriaData();
+            List<ProdutoModel> listpm = new List<ProdutoModel>();
+            List<Produto> lista = (List<Produto>)pDados.ListarTodos();
+            
+            foreach(Produto p in lista)
+            {
+                ProdutoModel pm = new ProdutoModel();
+                pm.Id = p.Id;
+                pm.Codigo = p.Codigo;
+                pm.Nome = p.Nome;
+                pm.PrecoCompra = p.PrecoCompra;
+                pm.PrecoVenda = p.PrecoVenda;
 
-        //        Processo p = new Processo();
-        //        p.numeroProcesso = model.NumeroProcesso;
-        //        p.autor = model.Autor;
-        //        p.reu = model.Reu;
-        //        p.DataHoraInicio = model.DataHoraInicio;
-        //        p.DataHoraFim = model.DataHoraFim;
-        //        p.Categoria = cBusiness.Service.Find(model.IdCategoria);
-        //        p.Usuario = (Usuario)Session["usuariologado"];
+                listpm.Add(pm);
+            }
 
-        //        pBusiness.CadastrarProcesso(p);
-
-        //        ViewBag.Mensagem = "Processo cadastrado com sucesso.";
-        //        ModelState.Clear();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        ViewBag.Mensagem = e.Message;
-        //    }
-        //    return View("Cadastro", new ProcessoModel());
-        //}
+            return View(listpm);
+        }
     }
 }

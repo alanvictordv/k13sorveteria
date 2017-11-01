@@ -1,5 +1,7 @@
 ﻿using KTreze.Dados.Entidades;
 using KTreze.Dados.Generico;
+using KTreze.Dados.Util;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +12,29 @@ namespace KTreze.Dados.Persistencia
 {
     public class EstoqueDados : GenericoDados<Estoque, Int32>
     {
+        public List<Estoque> ObterPorIdComposto(int IdProd, int IdFreezer)
+        {
+            using (ISession s = HibernateUtil.GetSessionFactory().OpenSession())
+            {
+                var query = from t in s.Query<Estoque>()
+                            where t.Produto.Id == IdProd &&
+                            t.Freezer.Id == IdFreezer
+                            select t;
+
+                List<Estoque> lista = new List<Estoque>();
+
+                foreach (var t in query.ToList())
+                {
+                    Estoque e = new Estoque();
+
+                    e.Produto = t.Produto;
+                    e.Freezer = t.Freezer;
+                    e.Quantidade = t.Quantidade;
+
+                    lista.Add(e);
+                }
+                return lista;
+            }
+        }
     }
 }

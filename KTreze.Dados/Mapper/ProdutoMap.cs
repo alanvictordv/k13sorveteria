@@ -14,12 +14,16 @@ namespace KTreze.Dados.Mapper
         {
             Table("produto");
 
-            Id(p => p.Id, "id").GeneratedBy.Identity();
+            Id(p => p.Id, "id_prod").GeneratedBy.Identity();
 
             Map(p => p.Codigo, "codigo").Length(50).Not.Nullable();
             Map(p => p.Nome, "nome").Length(50).Not.Nullable();
             Map(p => p.PrecoVenda, "preco_venda").Not.Nullable();
             Map(p => p.PrecoCompra, "preco_compra").Not.Nullable();
+
+            HasMany(p => p.ProdCompra).KeyColumn("id_prod").Inverse();
+            HasMany(p => p.ProdVenda).KeyColumn("id_prod").Inverse();
+            HasMany(p => p.Estoque).KeyColumn("id_prod").Inverse();
         }
     }
 }

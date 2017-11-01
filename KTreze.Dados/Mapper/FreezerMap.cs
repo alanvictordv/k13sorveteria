@@ -14,10 +14,12 @@ namespace KTreze.Dados.Mapper
         {
             Table("freezer");
 
-            Id(p => p.Id, "id").GeneratedBy.Identity();
+            Id(p => p.Id, "id_freezer").GeneratedBy.Identity();
 
             Map(p => p.Numeracao, "numeracao").Length(50).Not.Nullable();
             Map(p => p.Descricao, "descricao").Length(50).Nullable();
+
+            HasMany(p => p.Estoque).KeyColumn("id_freezer").Inverse();
         }
     }
 }

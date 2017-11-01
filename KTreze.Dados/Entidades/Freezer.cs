@@ -11,5 +11,7 @@ namespace KTreze.Dados.Entidades
         public virtual int Id { get; set; }
         public virtual string Numeracao { get; set; }
         public virtual string Descricao { get; set; }
+
+        public virtual ICollection<Estoque> Estoque { get; set; }
     }
 }

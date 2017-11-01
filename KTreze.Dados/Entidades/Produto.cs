@@ -11,7 +11,11 @@ namespace KTreze.Dados.Entidades
         public virtual int Id { get; set; }
         public virtual string Codigo { get; set; }
         public virtual string Nome { get; set; }
-        public virtual float PrecoVenda { get; set; }
-        public virtual float PrecoCompra { get; set; }
+        public virtual decimal? PrecoVenda { get; set; }
+        public virtual decimal? PrecoCompra { get; set; }
+
+        public virtual ICollection<ProdCompra> ProdCompra { get; set; }
+        public virtual ICollection<ProdVenda> ProdVenda { get; set; }
+        public virtual ICollection<Estoque> Estoque { get; set; }
     }
 }
