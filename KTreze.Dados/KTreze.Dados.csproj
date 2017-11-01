@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\ProdutoDto.cs" />
     <Compile Include="Entidades\Compra.cs" />
     <Compile Include="Entidades\Estoque.cs" />
     <Compile Include="Entidades\Freezer.cs" />

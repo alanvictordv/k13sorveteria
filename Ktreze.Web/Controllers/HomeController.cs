@@ -76,5 +76,13 @@ namespace Ktreze.Web.Controllers
 
             return View(listpm);
         }
+        public ActionResult DeletarProduto(int id)
+        {
+            ProdutoDados pDados = new ProdutoDados();
+            Produto p = pDados.ObterPorId(id);
+            pDados.Excluir(p);
+
+            return RedirectToAction("ConsultaProduto");
+        }
     }
 }

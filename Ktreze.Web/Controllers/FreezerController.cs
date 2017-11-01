@@ -25,8 +25,8 @@ namespace Ktreze.Web.Controllers
         {
             try
             {
-                var fDados = new FreezerDados();
-                var freezer = new Freezer();
+                FreezerDados fDados = new FreezerDados();
+                Freezer freezer = new Freezer();
                 freezer.Numeracao = model.Numeracao;
                 freezer.Descricao = model.Descricao;
 
@@ -59,6 +59,14 @@ namespace Ktreze.Web.Controllers
             }
 
             return View(listfm);
+        }
+        public ActionResult DeletarFreezer(int id)
+        {
+            FreezerDados fDados = new FreezerDados();
+            Freezer f = fDados.ObterPorId(id);
+            fDados.Excluir(f);
+
+            return RedirectToAction("ConsultaFreezer");
         }
     }
 }
