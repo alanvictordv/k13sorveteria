@@ -7,7 +7,7 @@
 <h2>ConsultaFreezer</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Novo Freezer", "CadastroFreezer", "", new { @class = "btn btn-success btn-sm" })
 </p>
 <table class="table">
     <tr>
@@ -30,8 +30,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Delete", "DeletarFreezer", new { id=item.Id }, new { @class = "btn btn-danger btn-xs" })
         </td>
     </tr>
 }

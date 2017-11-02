@@ -7,7 +7,7 @@
 <h2>CadastroFreezer</h2>
 
 
-@using (Html.BeginForm("CadastrarFreezer", "Estoque", FormMethod.Post))
+@using (Html.BeginForm("CadastrarFreezer", "Freezer", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
@@ -43,7 +43,7 @@
 }
 
 <div>
-    @Html.ActionLink("Voltar", "Index", "Home")
+    @Html.ActionLink("Voltar", "ConsultaFreezer", "Freezer")
 </div>
 
 @section Scripts {
