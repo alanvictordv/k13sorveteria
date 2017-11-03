@@ -52,50 +52,54 @@ namespace Ktreze.Web.Controllers
             List<Produto> lista = (List<Produto>)pDados.ListarTodos();
 
             CompraModel cm = new CompraModel();
-            cm.ListagemProdutos = lista;
+            cm.ListagemProdutosCompra = (List<ProdutoDto>)Session["Lista"];
+            //cm.ListagemProdutos = lista;
 
             return View(cm);
         }
 
-        public ActionResult SelecionarProduto(int id)
+        public ActionResult AdicaoProduto()
         {
+            return View(new CadastroCompraModel());
+        }
+        public ActionResult AdicionarProduto(CadastroCompraModel model)
+        {
+            List<ProdutoDto> listaProd = new List<ProdutoDto>();
+            if (Session["Lista"] != null)
+                listaProd = (List<ProdutoDto>)Session["Lista"];
+
+            ProdutoDto pDto = new ProdutoDto();
             ProdutoDados pDados = new ProdutoDados();
-            Produto p = pDados.ObterPorId(id);
+            Produto p = pDados.ObterPorId(model.IdProduto);
 
-            List<Produto> lista = (List<Produto>)pDados.ListarTodos();
-            List<Produto> listaProd = new List<Produto>();
-
-            if(Session["Lista"] != null)
-            listaProd = (List<Produto>)Session["Lista"];
-
-            listaProd.Add(p);
+            pDto.Produto = p;
+            pDto.Quantidade = model.Quantidade;
+            listaProd.Add(pDto);
 
             CompraModel cm = new CompraModel();
-
-            cm.ListagemProdutos = lista;
             cm.ListagemProdutosCompra = listaProd;
+            Session["Lista"] = listaProd;
 
-            Session["Lista"] = cm.ListagemProdutosCompra;
-
-            return View("ConsultaCompra", cm);
+            return RedirectToAction("AdicaoProduto", new CadastroCompraModel());
         }
+
         public ActionResult Deletar(int id)
         {
             ProdutoDados pDados = new ProdutoDados();
             //Produto p = pDados.ObterPorId(id);
 
             List<Produto> lista = (List<Produto>)pDados.ListarTodos();
-            List<Produto> listaProd = new List<Produto>();
-            List<Produto> listaProd2 = new List<Produto>();
+            List<ProdutoDto> listaProd = new List<ProdutoDto>();
+            List<ProdutoDto> listaProd2 = new List<ProdutoDto>();
 
             if (Session["Lista"] != null)
-                listaProd = (List<Produto>)Session["Lista"];
+                listaProd = (List<ProdutoDto>)Session["Lista"];
 
             Session["Lista"] = null;
 
-            foreach(Produto p in listaProd)
+            foreach(ProdutoDto p in listaProd)
             {
-                if(p.Id != id)
+                if(p.Produto.Id != id)
                 {
                     listaProd2.Add(p);
                 }
@@ -103,7 +107,7 @@ namespace Ktreze.Web.Controllers
 
             CompraModel cm = new CompraModel();
 
-            cm.ListagemProdutos = lista;
+            //cm.ListagemProdutos = lista;
             cm.ListagemProdutosCompra = listaProd2;
 
             Session["Lista"] = cm.ListagemProdutosCompra;
