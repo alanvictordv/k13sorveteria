@@ -10,17 +10,15 @@ namespace Ktreze.Web.Models
 {
     public class CompraModel
     {
-        public List<Produto> ListagemProdutos { get; set; }
-        public List<Produto> ListagemProdutosCompra
-        {
-            get; set;
-        }
+        //public List<Produto> ListagemProdutos { get; set; }
+        public List<ProdutoDto> ListagemProdutosCompra { get; set; }
+
             public decimal? Acumulador()
         {
             decimal? num = 0;
-            foreach (Produto p in ListagemProdutosCompra)
+            foreach (ProdutoDto p in ListagemProdutosCompra)
             {
-                num += p.PrecoCompra;
+                num += p.Produto.PrecoCompra * p.Quantidade;
             }
             return num;
         }
@@ -29,25 +27,34 @@ namespace Ktreze.Web.Models
 
 public class CadastroCompraModel
 {
-    public List<SelectListItem> Freezer
+    public int IdProduto { get; set; }
+
+    public List<SelectListItem> ListaProduto
     {
         get
         {
             List<SelectListItem> lista = new List<SelectListItem>();
 
-            FreezerDados fd = new FreezerDados();
+            ProdutoDados pd = new ProdutoDados();
 
-            foreach (Freezer f in fd.ListarTodos())
+            foreach (Produto p in pd.ListarTodos())
             {
                 SelectListItem item = new SelectListItem();
-                item.Value = f.Id.ToString();
-                item.Text = f.Numeracao;
+                item.Value = p.Id.ToString();
+                item.Text = p.Nome;
 
                 lista.Add(item);
             }
             return lista;
         }
     }
+
+    public int Quantidade { get; set; }
+}
+
+public class ProdutoDto
+{
+    public Produto Produto { get; set; }
 
     public int Quantidade { get; set; }
 }

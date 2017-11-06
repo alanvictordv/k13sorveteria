@@ -6,57 +6,9 @@
 
 <h2>ConsultaCompra</h2>
 
-<div class="row">
-    <div class="col-md-4">
-        @if (Model != null && Model.ListagemProdutos != null)
-        {
-            @*<div>
-                    @Html.ActionLink("Gerar Relatorio", "GeraRelatorio2", "", new { @class = "btn btn-success" })
-                    @Html.ActionLink("Gerar Gráfico", "GerarGrafico", "", new { @class = "btn btn-success" })
-                </div>*@
-
-        if (Model.ListagemProdutos.Count > 0)
-        {
-            <div class="tabela">
-                <table class="table table-hover" id="conteudo">
-                    <thead>
-                        <tr>
-                            <th>Código do Produto</th>
-                            <th>Nome</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var t in Model.ListagemProdutos)
-                        {
-                            <tr>
-                                <td> @t.Codigo</td>
-                                <td> @t.Nome </td>
-
-                                <td>
-                                    @Html.ActionLink("Selecionar", "SelecionarProduto",
-                                new { id = t.Id },
-                                new { @class = "btn btn-success btn-xs" })
-                                </td>
-
-                            </tr>
-                        }
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="7"> Registros: @Model.ListagemProdutos.Count </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        }
-        else
-        {
-            <h4>Nenhuma tarefa encontrada.</h4>
-            }
-        }
-    </div>
-    <div class="col-md-8">
+<div>
+    <div>@Html.ActionLink("Adicionar Produto", "AdicaoProduto", "", new { @class = "btn btn-success btn-sm" })</div>
+    
         @if (Model != null && Model.ListagemProdutosCompra != null)
         {
             @*<div>
@@ -73,6 +25,7 @@
                             <th>Código do Produto</th>
                             <th>Nome</th>
                             <th>Preço de Compra</th>
+                            <th>Quantidade</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -80,13 +33,14 @@
                         @foreach (var t in Model.ListagemProdutosCompra)
                         {
                             <tr>
-                                <td> @t.Codigo</td>
-                                <td> @t.Nome </td>
-                                <td> @t.PrecoCompra </td>
+                                <td> @t.Produto.Codigo</td>
+                                <td> @t.Produto.Nome </td>
+                                <td> @t.Produto.PrecoCompra </td>
+                                <td>@t.Quantidade</td>
 
                                 <td>
                                     @Html.ActionLink("Excluir", "Deletar",
-                                new { id = t.Id },
+                                new { id = t.Produto.Id },
                                 new { @class = "btn btn-danger btn-xs" })
                                 </td>
 
@@ -110,5 +64,5 @@
             }
         }
 
-    </div>
+    @*</div>*@
 </div>
