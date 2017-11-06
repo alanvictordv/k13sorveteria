@@ -48,9 +48,6 @@ namespace Ktreze.Web.Controllers
             ProdutoDados pDados = new ProdutoDados();
             FreezerDados fDados = new FreezerDados();
 
-            List<CompraModel> listcm = new List<CompraModel>();
-            List<Produto> lista = (List<Produto>)pDados.ListarTodos();
-
             CompraModel cm = new CompraModel();
             cm.ListagemProdutosCompra = (List<ProdutoDto>)Session["Lista"];
             //cm.ListagemProdutos = lista;
@@ -113,6 +110,33 @@ namespace Ktreze.Web.Controllers
             Session["Lista"] = cm.ListagemProdutosCompra;
 
             return View("ConsultaCompra", cm);
+        }
+
+        public ActionResult FinalizaCompra()
+        {
+            CompraModel cm = new CompraModel();
+            cm.ListagemProdutosCompra = (List<ProdutoDto>)Session["Lista"];
+
+            Compra c = new Compra();
+            c.Preco = cm.Acumulador();
+            c.DataHora = DateTime.Now;
+
+            CompraDados cd = new CompraDados();
+            cd.Inserir(c);
+
+            return RedirectToAction("InstanciaConsulta");
+        }
+        public ActionResult ArmazenamentoCompra()
+        {
+            if (Session["Lista"] != null)
+            {
+                CompraModel cm = new CompraModel();
+                cm.ListagemProdutosCompra = (List<ProdutoDto>)Session["Lista"];
+
+                return View(cm);
+            }
+            else
+                return RedirectToAction("InstanciaConsulta");
         }
     }
 }
