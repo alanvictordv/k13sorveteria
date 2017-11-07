@@ -58,3 +58,30 @@ public class ProdutoDto
 
     public int Quantidade { get; set; }
 }
+
+public class CadastroArmazenamentoModel
+{
+    public int IdFreezer { get; set; }
+
+    public List<SelectListItem> ListaFreezer
+    {
+        get
+        {
+            List<SelectListItem> lista = new List<SelectListItem>();
+
+            FreezerDados fd = new FreezerDados();
+
+            foreach (Freezer f in fd.ListarTodos())
+            {
+                SelectListItem item = new SelectListItem();
+                item.Value = f.Id.ToString();
+                item.Text = f.Numeracao;
+
+                lista.Add(item);
+            }
+            return lista;
+        }
+    }
+
+    public int Quantidade { get; set; }
+}

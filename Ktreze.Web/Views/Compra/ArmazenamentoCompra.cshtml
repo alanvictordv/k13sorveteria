@@ -32,9 +32,9 @@
                             <td>@t.Quantidade</td>
 
                             <td>
-                                @Html.ActionLink("Excluir", "Deletar",
+                                @Html.ActionLink("Selecionar", "SelecionaArmazenamentoCompra",
                                 new { id = t.Produto.Id },
-                                new { @class = "btn btn-danger btn-xs" })
+                                new { @class = "btn btn-success btn-xs" })
                             </td>
 
                         </tr>
@@ -44,13 +44,9 @@
                     <tr>
                         <td colspan="7"> Registros: @Model.ListagemProdutosCompra.Count </td>
                     </tr>
-                    <tr>
-                        <td colspan="7"><h4 class="text-success"> Preco total: @Model.Acumulador() </h4></td>
-                    </tr>
                 </tfoot>
             </table>
         </div>
-            @Html.ActionLink("Finalizar Compra", "FinalizaCompra", "", new { @class = "btn btn-primary btn-md" })
     }
     else
     {

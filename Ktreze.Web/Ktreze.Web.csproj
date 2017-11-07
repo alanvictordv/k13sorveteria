@@ -233,6 +233,7 @@
     <Content Include="Views\Compra\ConsultaCompra.cshtml" />
     <Content Include="Views\Compra\AdicaoProduto.cshtml" />
     <Content Include="Views\Compra\ArmazenamentoCompra.cshtml" />
+    <Content Include="Views\Compra\SelecionaArmazenamentoCompra.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
