@@ -11,7 +11,7 @@ namespace Ktreze.Web.Controllers
 {
     public class CompraController : Controller
     {
-        
+
         public static decimal? AcumulaPreco;
 
         // GET: Compra
@@ -30,7 +30,7 @@ namespace Ktreze.Web.Controllers
             {
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ViewBag.Mensagem = e.Message;
             }
@@ -94,9 +94,9 @@ namespace Ktreze.Web.Controllers
 
             Session["Lista"] = null;
 
-            foreach(ProdutoDto p in listaProd)
+            foreach (ProdutoDto p in listaProd)
             {
-                if(p.Produto.Id != id)
+                if (p.Produto.Id != id)
                 {
                     listaProd2.Add(p);
                 }
@@ -124,6 +124,17 @@ namespace Ktreze.Web.Controllers
             CompraDados cd = new CompraDados();
             cd.Inserir(c);
 
+            ProdCompra pc = new ProdCompra();
+            ProdCompraDados pcDados = new ProdCompraDados();
+
+            foreach (ProdutoDto p in cm.ListagemProdutosCompra)
+            {
+                pc.Compra = c;
+                pc.Produto = p.Produto;
+                pc.Quantidade = p.Quantidade;
+                pcDados.Inserir(pc);
+            }
+
             return RedirectToAction("ArmazenamentoCompra");
         }
         public ActionResult ArmazenamentoCompra()
@@ -142,7 +153,7 @@ namespace Ktreze.Web.Controllers
         {
             ProdutoDados pDados = new ProdutoDados();
             Produto p = pDados.ObterPorId(id);
-            List <ProdutoDto> lista = (List<ProdutoDto>)Session["Lista"];
+            List<ProdutoDto> lista = (List<ProdutoDto>)Session["Lista"];
             ProdutoDto pDto = lista.Find(x => x.Produto.Id == p.Id);
 
             Session["Produto"] = pDto;
@@ -154,49 +165,72 @@ namespace Ktreze.Web.Controllers
         public ActionResult ArmazenaCompra(CadastroArmazenamentoModel model)
         {
             ProdutoDto pDto = (ProdutoDto)Session["Produto"];
-            
+
             if (model.Quantidade <= pDto.Quantidade)
             {
-                EstoqueDados eDados = new EstoqueDados();
-                if (eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer) != null)
+                if (model.ListaFreezer != null)
                 {
-                    Estoque e = eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer);
-                    e.Quantidade += model.Quantidade;
-                    eDados.Alterar(e);
+                    EstoqueDados eDados = new EstoqueDados();
+                    if (eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer) != null)
+                    {
+                        Estoque e = eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer);
+                        e.Quantidade += model.Quantidade;
+                        eDados.Alterar(e);
+                    }
+                    else
+                    {
+                        FreezerDados fDados = new FreezerDados();
+                        Estoque e = new Estoque();
+                        e.Produto = pDto.Produto;
+                        e.Freezer = fDados.ObterPorId(model.IdFreezer);
+                        e.Quantidade = model.Quantidade;
+                        eDados.Inserir(e);
+                    }
+                    pDto.Quantidade = pDto.Quantidade - model.Quantidade;
+                    Session["Produto"] = pDto;
+
+                    List<ProdutoDto> listaProd = (List<ProdutoDto>)Session["Lista"];
+                    List<ProdutoDto> listaProd2 = new List<ProdutoDto>();
+                    Session["Lista"] = null;
+                    foreach (ProdutoDto p in listaProd)
+                    {
+                        if (p.Produto.Id != pDto.Produto.Id)
+                        {
+                            listaProd2.Add(p);
+                        }
+                    }
+                    if (pDto.Quantidade != 0)
+                        listaProd2.Add(pDto);
+
+                    Session["Lista"] = listaProd2;
                 }
                 else
                 {
-                    FreezerDados fDados = new FreezerDados();
-                    Estoque e = new Estoque();
-                    e.Produto = pDto.Produto;
-                    e.Freezer = fDados.ObterPorId(model.IdFreezer);
-                    e.Quantidade = model.Quantidade;
-                    eDados.Inserir(e);
-                }
-                pDto.Quantidade = pDto.Quantidade - model.Quantidade;
-                Session["Produto"] = pDto;
-
-                List<ProdutoDto> listaProd = (List<ProdutoDto>)Session["Lista"];
-                List<ProdutoDto> listaProd2 = new List<ProdutoDto>();
-                Session["Lista"] = null;
-                foreach (ProdutoDto p in listaProd)
-                {
-                    if (p.Produto.Id != pDto.Produto.Id)
+                    ViewBag.Mensagem = "Você deve informar o freezer no qual deseja armazenar o produto.";
+                    if (Session["Lista"] != null)
                     {
-                        listaProd2.Add(p);
+                        CompraModel cm = new CompraModel();
+                        cm.ListagemProdutosCompra = (List<ProdutoDto>)Session["Lista"];
+
+                        return View("ArmazenamentoCompra", cm);
                     }
                 }
-                if(pDto.Quantidade != 0)
-                listaProd2.Add(pDto);
-
-                Session["Lista"] = listaProd2;
             }
             else
             {
                 ViewBag.Mensagem = "A quantidade que você tentou inserir não condiz com a compra efetuada.";
-                return View("SelecionaArmazenamentoCompra");
+                if (Session["Lista"] != null)
+                {
+                    CompraModel cm = new CompraModel();
+                    cm.ListagemProdutosCompra = (List<ProdutoDto>)Session["Lista"];
+
+                    return View("ArmazenamentoCompra", cm);
+                }
             }
-            return RedirectToAction("ArmazenamentoCompra");
+            if (Session["Lista"] != null)
+                return RedirectToAction("ArmazenamentoCompra");
+            else
+                return RedirectToAction("InstanciaConsulta");
         }
     }
 }
