@@ -77,7 +77,10 @@ namespace Ktreze.Web.Controllers
             cm.ListagemProdutosCompra = listaProd;
             Session["Lista"] = listaProd;
 
-            return RedirectToAction("AdicaoProduto", new CadastroCompraModel());
+            ModelState.Clear();
+            ViewBag.MensagemCompra = "Produto adicionado à lista com sucesso.";
+
+            return View("AdicaoProduto", new CadastroCompraModel());
         }
 
         public ActionResult Deletar(int id)

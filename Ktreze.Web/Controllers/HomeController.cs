@@ -84,5 +84,41 @@ namespace Ktreze.Web.Controllers
 
             return RedirectToAction("ConsultaProduto");
         }
+        public ActionResult ViewEdita(int id)
+        {
+            ProdutoDados pDados = new ProdutoDados();
+            Produto p = pDados.ObterPorId(id);
+
+            ProdutoModel model = new ProdutoModel();
+
+            model.Id = p.Id;
+            model.Codigo = p.Codigo;
+            model.Nome = p.Nome;
+            model.PrecoCompra = p.PrecoCompra;
+            model.PrecoVenda = p.PrecoVenda;
+
+            return View(model);
+        }
+        public ActionResult EditaProduto(ProdutoModel model)
+        {
+            try
+            {
+                ProdutoDados pDados = new ProdutoDados();
+                Produto p = new Produto();
+
+                p.Id = model.Id;
+                p.Codigo = model.Codigo;
+                p.Nome = model.Nome;
+                p.PrecoCompra = model.PrecoCompra;
+                p.PrecoVenda = model.PrecoVenda;
+
+                pDados.Alterar(p);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Mensagem = e.Message;
+            }
+            return RedirectToAction("ConsultaProduto");
+        }
     }
 }
