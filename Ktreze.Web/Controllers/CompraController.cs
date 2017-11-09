@@ -168,53 +168,51 @@ namespace Ktreze.Web.Controllers
 
             if (model.Quantidade <= pDto.Quantidade)
             {
-                if (model.ListaFreezer != null)
+                EstoqueDados eDados = new EstoqueDados();
+                if (eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer) != null)
                 {
-                    EstoqueDados eDados = new EstoqueDados();
-                    if (eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer) != null)
-                    {
-                        Estoque e = eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer);
-                        e.Quantidade += model.Quantidade;
-                        eDados.Alterar(e);
-                    }
-                    else
-                    {
-                        FreezerDados fDados = new FreezerDados();
-                        Estoque e = new Estoque();
-                        e.Produto = pDto.Produto;
-                        e.Freezer = fDados.ObterPorId(model.IdFreezer);
-                        e.Quantidade = model.Quantidade;
-                        eDados.Inserir(e);
-                    }
-                    pDto.Quantidade = pDto.Quantidade - model.Quantidade;
-                    Session["Produto"] = pDto;
-
-                    List<ProdutoDto> listaProd = (List<ProdutoDto>)Session["Lista"];
-                    List<ProdutoDto> listaProd2 = new List<ProdutoDto>();
-                    Session["Lista"] = null;
-                    foreach (ProdutoDto p in listaProd)
-                    {
-                        if (p.Produto.Id != pDto.Produto.Id)
-                        {
-                            listaProd2.Add(p);
-                        }
-                    }
-                    if (pDto.Quantidade != 0)
-                        listaProd2.Add(pDto);
-
-                    Session["Lista"] = listaProd2;
+                    Estoque e = eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer);
+                    e.Quantidade += model.Quantidade;
+                    eDados.Alterar(e);
                 }
                 else
                 {
-                    ViewBag.Mensagem = "Você deve informar o freezer no qual deseja armazenar o produto.";
-                    if (Session["Lista"] != null)
+                    FreezerDados fDados = new FreezerDados();
+                    Estoque e = new Estoque();
+                    e.Produto = pDto.Produto;
+                    e.Freezer = fDados.ObterPorId(model.IdFreezer);
+                    e.Quantidade = model.Quantidade;
+                    if(e.Produto != null && e.Freezer != null)
+                    eDados.Inserir(e);
+                    else
                     {
-                        CompraModel cm = new CompraModel();
-                        cm.ListagemProdutosCompra = (List<ProdutoDto>)Session["Lista"];
+                        ViewBag.Mensagem = "Você deve preencher todo o formulário.";
+                        if (Session["Lista"] != null)
+                        {
+                            CompraModel cm = new CompraModel();
+                            cm.ListagemProdutosCompra = (List<ProdutoDto>)Session["Lista"];
 
-                        return View("ArmazenamentoCompra", cm);
+                            return View("ArmazenamentoCompra", cm);
+                        }
                     }
                 }
+                pDto.Quantidade = pDto.Quantidade - model.Quantidade;
+                Session["Produto"] = pDto;
+
+                List<ProdutoDto> listaProd = (List<ProdutoDto>)Session["Lista"];
+                List<ProdutoDto> listaProd2 = new List<ProdutoDto>();
+                Session["Lista"] = null;
+                foreach (ProdutoDto p in listaProd)
+                {
+                    if (p.Produto.Id != pDto.Produto.Id)
+                    {
+                        listaProd2.Add(p);
+                    }
+                }
+                if (pDto.Quantidade != 0)
+                    listaProd2.Add(pDto);
+
+                Session["Lista"] = listaProd2;
             }
             else
             {
