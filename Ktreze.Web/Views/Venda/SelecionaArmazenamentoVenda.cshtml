@@ -1,0 +1,52 @@
+﻿@model Ktreze.Web.Models.CadastroArmazenamentoVendaModel
+
+@{
+    ViewBag.Title = "SelecionaArmazenamentoVenda";
+}
+
+<h2>SelecionaArmazenamentoVenda</h2>
+<h3>Nome do produto: <strong>@ViewBag.NomeProd</strong></h3>
+<h3>Quantidade para retirar: <strong>@ViewBag.QuantProd</strong></h3>
+<br />
+@foreach(var e in Model.listFreezerDisp)
+{
+    <h3>Temos @e.Quantidade disponíveis no freezer: @e.Freezer.Numeracao</h3>
+}
+@using (Html.BeginForm("ArmazenaVenda", "Venda", FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>CadastroArmazenamentoVendaModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdFreezer, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.IdFreezer, Model.ListaFreezer, "- Escolha uma Opção -", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdFreezer, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantidade, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantidade, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Quantidade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    <p>
+        @ViewBag.Mensagem
+    </p>
+}
+
+<div>
+    @Html.ActionLink("voltar", "ArmazenamentoVenda")
+</div>

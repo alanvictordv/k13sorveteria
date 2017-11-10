@@ -11,32 +11,6 @@ namespace Ktreze.Web.Controllers
 {
     public class CompraController : Controller
     {
-
-        public static decimal? AcumulaPreco;
-
-        // GET: Compra
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult CadastroCompra()
-        {
-            return View();
-        }
-        public ActionResult CadastrarCompra()
-        {
-            try
-            {
-
-            }
-            catch (Exception e)
-            {
-                ViewBag.Mensagem = e.Message;
-            }
-            return View();
-        }
-
         public ActionResult InstanciaConsulta()
         {
             Session["Lista"] = null;
@@ -44,13 +18,8 @@ namespace Ktreze.Web.Controllers
         }
         public ActionResult ConsultaCompra()
         {
-            EstoqueDados eDados = new EstoqueDados();
-            ProdutoDados pDados = new ProdutoDados();
-            FreezerDados fDados = new FreezerDados();
-
             CompraModel cm = new CompraModel();
             cm.ListagemProdutosCompra = (List<ProdutoDto>)Session["Lista"];
-            //cm.ListagemProdutos = lista;
 
             return View(cm);
         }
@@ -86,29 +55,17 @@ namespace Ktreze.Web.Controllers
         public ActionResult Deletar(int id)
         {
             ProdutoDados pDados = new ProdutoDados();
-            //Produto p = pDados.ObterPorId(id);
 
             List<Produto> lista = (List<Produto>)pDados.ListarTodos();
             List<ProdutoDto> listaProd = new List<ProdutoDto>();
-            List<ProdutoDto> listaProd2 = new List<ProdutoDto>();
 
             if (Session["Lista"] != null)
                 listaProd = (List<ProdutoDto>)Session["Lista"];
 
-            Session["Lista"] = null;
-
-            foreach (ProdutoDto p in listaProd)
-            {
-                if (p.Produto.Id != id)
-                {
-                    listaProd2.Add(p);
-                }
-            }
+            listaProd.RemoveAll(x => x.Produto.Id == id);
 
             CompraModel cm = new CompraModel();
-
-            //cm.ListagemProdutos = lista;
-            cm.ListagemProdutosCompra = listaProd2;
+            cm.ListagemProdutosCompra = listaProd;
 
             Session["Lista"] = cm.ListagemProdutosCompra;
 

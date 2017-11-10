@@ -1,4 +1,4 @@
-﻿@model CadastroCompraModel
+﻿@model Ktreze.Web.Models.CadastroVendaModel
 
 @{
     ViewBag.Title = "AdicaoProduto";
@@ -6,12 +6,12 @@
 
 <h2>AdicaoProduto</h2>
 
-@using (Html.BeginForm("AdicionarProduto", "Compra", FormMethod.Post)) 
+@using (Html.BeginForm("AdicionarProduto", "Venda", FormMethod.Post)) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>CadastroCompraModel</h4>
+        <h4>CadastroVendaModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -37,12 +37,12 @@
         </div>
     </div>
     <p>
-        @ViewBag.MensagemCompra
+        @ViewBag.MensagemVenda
     </p>
 }
 
 <div>
-    @Html.ActionLink("Ir para consulta", "ConsultaCompra")
+    @Html.ActionLink("Ir para consulta", "ConsultaVenda")
 </div>
 
 @section Scripts {

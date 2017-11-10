@@ -11,7 +11,6 @@ namespace Ktreze.Web.Models
 {
     public class CompraModel
     {
-        //public List<Produto> ListagemProdutos { get; set; }
         public List<ProdutoDto> ListagemProdutosCompra { get; set; }
 
             public decimal? Acumulador()

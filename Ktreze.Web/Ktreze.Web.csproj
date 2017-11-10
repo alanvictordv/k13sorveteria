@@ -163,6 +163,7 @@
     <Compile Include="Controllers\EstoqController.cs" />
     <Compile Include="Controllers\FreezerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\VendaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -170,6 +171,7 @@
     <Compile Include="Models\EstoqueModel.cs" />
     <Compile Include="Models\FreezerModel.cs" />
     <Compile Include="Models\ProdutoModel.cs" />
+    <Compile Include="Models\VendaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +239,10 @@
     <Content Include="Views\Compra\SelecionaArmazenamentoCompra.cshtml" />
     <Content Include="Views\Home\ViewEdita.cshtml" />
     <Content Include="Views\Freezer\ViewEdita.cshtml" />
+    <Content Include="Views\Venda\ConsultaVenda.cshtml" />
+    <Content Include="Views\Venda\AdicaoProduto.cshtml" />
+    <Content Include="Views\Venda\ArmazenamentoVenda.cshtml" />
+    <Content Include="Views\Venda\SelecionaArmazenamentoVenda.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

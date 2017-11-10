@@ -1,0 +1,69 @@
+﻿@model Ktreze.Web.Models.VendaModel
+
+@{
+    ViewBag.Title = "ConsultaVenda";
+}
+
+<h2>ConsultaVenda</h2>
+
+<div>
+    <div>@Html.ActionLink("Adicionar Produto", "AdicaoProduto", "", new { @class = "btn btn-success btn-sm" })</div>
+
+    @if (Model != null && Model.ListagemProdutosVenda != null)
+    {
+        @*<div>
+                @Html.ActionLink("Gerar Relatorio", "GeraRelatorio2", "", new { @class = "btn btn-success" })
+                @Html.ActionLink("Gerar Gráfico", "GerarGrafico", "", new { @class = "btn btn-success" })
+            </div>*@
+
+    if (Model.ListagemProdutosVenda.Count > 0)
+    {
+        <div class="tabela">
+            <table class="table table-hover" id="conteudo">
+                <thead>
+                    <tr>
+                        <th>Código do Produto</th>
+                        <th>Nome</th>
+                        <th>Preço de Venda</th>
+                        <th>Quantidade</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var t in Model.ListagemProdutosVenda)
+                    {
+                        <tr>
+                            <td> @t.Produto.Codigo</td>
+                            <td> @t.Produto.Nome </td>
+                            <td> @t.Produto.PrecoVenda </td>
+                            <td>@t.Quantidade</td>
+
+                            <td>
+                                @Html.ActionLink("Excluir", "Deletar",
+                                new { id = t.Produto.Id },
+                                new { @class = "btn btn-danger btn-xs" })
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7"> Registros: @Model.ListagemProdutosVenda.Count </td>
+                    </tr>
+                    <tr>
+                        <td colspan="7"><h4 class="text-success"> Preco total: @Model.Acumulador() </h4></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+            @Html.ActionLink("Finalizar Venda", "FinalizaVenda", "", new { @class = "btn btn-primary btn-md" })
+    }
+    else
+    {
+        <h4>Nenhum produto selecionado.</h4>
+        }
+    }
+
+    @*</div>*@
+</div>
