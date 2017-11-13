@@ -1,7 +1,7 @@
 ﻿@model Ktreze.Web.Models.CadastroVendaModel
 
 @{
-    ViewBag.Title = "AdicaoProduto";
+    ViewBag.Title = "Adição de produto à venda";
 }
 
 <h2>AdicaoProduto</h2>
@@ -38,6 +38,7 @@
     </div>
     <p>
         @ViewBag.MensagemVenda
+        <span class="erro">@ViewBag.MensagemVendaErro</span>
     </p>
 }
 

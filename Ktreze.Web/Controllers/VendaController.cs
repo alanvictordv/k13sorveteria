@@ -29,24 +29,34 @@ namespace Ktreze.Web.Controllers
         }
         public ActionResult AdicionarProduto(CadastroVendaModel model)
         {
-            List<ProdutoDto> listaProd = new List<ProdutoDto>();
-            if (Session["ListaVenda"] != null)
-                listaProd = (List<ProdutoDto>)Session["ListaVenda"];
+            if (model.Quantidade > 0)
+            {
+                List<ProdutoDto> listaProd = new List<ProdutoDto>();
+                if (Session["ListaVenda"] != null)
+                    listaProd = (List<ProdutoDto>)Session["ListaVenda"];
 
-            ProdutoDto pDto = new ProdutoDto();
-            ProdutoDados pDados = new ProdutoDados();
-            Produto p = pDados.ObterPorId(model.IdProduto);
+                ProdutoDto pDto = new ProdutoDto();
+                ProdutoDados pDados = new ProdutoDados();
+                Produto p = pDados.ObterPorId(model.IdProduto);
 
-            pDto.Produto = p;
-            pDto.Quantidade = model.Quantidade;
-            listaProd.Add(pDto);
+                pDto.Produto = p;
+                pDto.Quantidade = model.Quantidade;
+                listaProd.Add(pDto);
 
-            VendaModel vm = new VendaModel();
-            vm.ListagemProdutosVenda = listaProd;
-            Session["ListaVenda"] = listaProd;
+                VendaModel vm = new VendaModel();
+                vm.ListagemProdutosVenda = listaProd;
+                Session["ListaVenda"] = listaProd;
 
-            ModelState.Clear();
-            ViewBag.MensagemCompra = "Produto adicionado à lista com sucesso.";
+                ModelState.Clear();
+                ViewBag.MensagemVenda = "Produto adicionado à lista com sucesso.";
+                ViewBag.MensagemVendaErro = null;
+            }
+            else
+            {
+                ModelState.Clear();
+                ViewBag.MensagemVendaErro = "A quantidade digitada é inválida.";
+                ViewBag.MensagemVenda = null;
+            }
 
             return View("AdicaoProduto", new CadastroVendaModel());
         }
@@ -118,8 +128,10 @@ namespace Ktreze.Web.Controllers
             ViewBag.QuantProd = pDto.Quantidade.ToString();
 
             EstoqueDados eDados = new EstoqueDados();
+
             CadastroArmazenamentoVendaModel cam = new CadastroArmazenamentoVendaModel();
-            
+            cam.listaFreezerDisp = cam.listarFreezerDisp(id);
+
             List<SelectListItem> listaCombo = new List<SelectListItem>();
 
             List<Estoque> listaAux = cam.listarFreezerDisp(id);
@@ -137,10 +149,97 @@ namespace Ktreze.Web.Controllers
                 listaCombo.Add(item);
             }
 
-            cam.listaFreezerDisp = cam.listarFreezerDisp(id);
             cam.ListaFreezer = listaCombo;
 
             return View(cam);
+        }
+        public ActionResult ArmazenaVenda(CadastroArmazenamentoVendaModel model)
+        {
+            if (model.Quantidade > 0)
+            {
+                ProdutoDto pDto = (ProdutoDto)Session["ProdutoVenda"];
+
+                EstoqueDados eDados = new EstoqueDados();
+                Estoque e = eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer);
+
+                if (e != null)
+                {
+                    if (model.Quantidade <= e.Quantidade)
+                    {
+                        if (model.Quantidade <= pDto.Quantidade)
+                        {
+                            e.Quantidade = e.Quantidade - model.Quantidade;
+                            eDados.Alterar(e);
+
+                            pDto.Quantidade = pDto.Quantidade - model.Quantidade;
+                            Session["ProdutoVenda"] = pDto;
+
+                            List<ProdutoDto> listaProd = (List<ProdutoDto>)Session["ListaVenda"];
+                            List<ProdutoDto> listaProd2 = new List<ProdutoDto>();
+                            Session["ListaVenda"] = null;
+                            foreach (ProdutoDto p in listaProd)
+                            {
+                                if (p.Produto.Id != pDto.Produto.Id)
+                                {
+                                    listaProd2.Add(p);
+                                }
+                            }
+                            if (pDto.Quantidade != 0)
+                                listaProd2.Add(pDto);
+
+                            Session["ListaVenda"] = listaProd2;
+                        }
+                        else
+                        {
+                            ViewBag.MensagemVenda = "A quantidade que você tentou retirar não condiz com a venda efetuada.";
+                            if (Session["ListaVenda"] != null)
+                            {
+                                VendaModel vm = new VendaModel();
+                                vm.ListagemProdutosVenda = (List<ProdutoDto>)Session["ListaVenda"];
+
+                                return View("ArmazenamentoVenda", vm);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.MensagemVenda = "A quantidade que você solicitou não está disponível no freezer selecionado.";
+                        if (Session["ListaVenda"] != null)
+                        {
+                            VendaModel vm = new VendaModel();
+                            vm.ListagemProdutosVenda = (List<ProdutoDto>)Session["ListaVenda"];
+
+                            return View("ArmazenamentoVenda", vm);
+                        }
+                    }
+                }
+                else
+                {
+                    ViewBag.MensagemVenda = "Você deve preencher todo o formulário.";
+                    if (Session["ListaVenda"] != null)
+                    {
+                        VendaModel vm = new VendaModel();
+                        vm.ListagemProdutosVenda = (List<ProdutoDto>)Session["ListaVenda"];
+
+                        return View("ArmazenamentoVenda", vm);
+                    }
+                }
+            }
+            else
+            {
+                ViewBag.MensagemVenda = "A quantidade digitada é inválida.";
+                if (Session["ListaVenda"] != null)
+                {
+                    VendaModel vm = new VendaModel();
+                    vm.ListagemProdutosVenda = (List<ProdutoDto>)Session["ListaVenda"];
+
+                    return View("ArmazenamentoVenda", vm);
+                }
+            }
+            if (Session["ListaVenda"] != null)
+                return RedirectToAction("ArmazenamentoVenda");
+            else
+                return RedirectToAction("InstanciaConsulta");
         }
     }
 }

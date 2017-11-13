@@ -30,25 +30,34 @@ namespace Ktreze.Web.Controllers
         }
         public ActionResult AdicionarProduto(CadastroCompraModel model)
         {
-            List<ProdutoDto> listaProd = new List<ProdutoDto>();
-            if (Session["Lista"] != null)
-                listaProd = (List<ProdutoDto>)Session["Lista"];
+            if (model.Quantidade > 0)
+            {
+                List<ProdutoDto> listaProd = new List<ProdutoDto>();
+                if (Session["Lista"] != null)
+                    listaProd = (List<ProdutoDto>)Session["Lista"];
 
-            ProdutoDto pDto = new ProdutoDto();
-            ProdutoDados pDados = new ProdutoDados();
-            Produto p = pDados.ObterPorId(model.IdProduto);
+                ProdutoDto pDto = new ProdutoDto();
+                ProdutoDados pDados = new ProdutoDados();
+                Produto p = pDados.ObterPorId(model.IdProduto);
 
-            pDto.Produto = p;
-            pDto.Quantidade = model.Quantidade;
-            listaProd.Add(pDto);
+                pDto.Produto = p;
+                pDto.Quantidade = model.Quantidade;
+                listaProd.Add(pDto);
 
-            CompraModel cm = new CompraModel();
-            cm.ListagemProdutosCompra = listaProd;
-            Session["Lista"] = listaProd;
+                CompraModel cm = new CompraModel();
+                cm.ListagemProdutosCompra = listaProd;
+                Session["Lista"] = listaProd;
 
-            ModelState.Clear();
-            ViewBag.MensagemCompra = "Produto adicionado à lista com sucesso.";
-
+                ModelState.Clear();
+                ViewBag.MensagemCompra = "Produto adicionado à lista com sucesso.";
+                ViewBag.MensagemCompraErro = null;
+            }
+            else
+            {
+                ModelState.Clear();
+                ViewBag.MensagemCompraErro = "A quantidade digitada é inválida.";
+                ViewBag.MensagemCompra = null;
+            }
             return View("AdicaoProduto", new CadastroCompraModel());
         }
 
@@ -124,59 +133,73 @@ namespace Ktreze.Web.Controllers
         }
         public ActionResult ArmazenaCompra(CadastroArmazenamentoModel model)
         {
-            ProdutoDto pDto = (ProdutoDto)Session["Produto"];
-
-            if (model.Quantidade <= pDto.Quantidade)
+            if (model.Quantidade > 0)
             {
-                EstoqueDados eDados = new EstoqueDados();
-                if (eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer) != null)
+                ProdutoDto pDto = (ProdutoDto)Session["Produto"];
+
+                if (model.Quantidade <= pDto.Quantidade)
                 {
-                    Estoque e = eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer);
-                    e.Quantidade += model.Quantidade;
-                    eDados.Alterar(e);
+                    EstoqueDados eDados = new EstoqueDados();
+                    if (eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer) != null)
+                    {
+                        Estoque e = eDados.ObterPorIdComposto(pDto.Produto.Id, model.IdFreezer);
+                        e.Quantidade += model.Quantidade;
+                        eDados.Alterar(e);
+                    }
+                    else
+                    {
+                        FreezerDados fDados = new FreezerDados();
+                        Estoque e = new Estoque();
+                        e.Produto = pDto.Produto;
+                        e.Freezer = fDados.ObterPorId(model.IdFreezer);
+                        e.Quantidade = model.Quantidade;
+                        if (e.Produto != null && e.Freezer != null)
+                            eDados.Inserir(e);
+                        else
+                        {
+                            ViewBag.Mensagem = "Você deve preencher todo o formulário.";
+                            if (Session["Lista"] != null)
+                            {
+                                CompraModel cm = new CompraModel();
+                                cm.ListagemProdutosCompra = (List<ProdutoDto>)Session["Lista"];
+
+                                return View("ArmazenamentoCompra", cm);
+                            }
+                        }
+                    }
+                    pDto.Quantidade = pDto.Quantidade - model.Quantidade;
+                    Session["Produto"] = pDto;
+
+                    List<ProdutoDto> listaProd = (List<ProdutoDto>)Session["Lista"];
+                    List<ProdutoDto> listaProd2 = new List<ProdutoDto>();
+                    Session["Lista"] = null;
+                    foreach (ProdutoDto p in listaProd)
+                    {
+                        if (p.Produto.Id != pDto.Produto.Id)
+                        {
+                            listaProd2.Add(p);
+                        }
+                    }
+                    if (pDto.Quantidade != 0)
+                        listaProd2.Add(pDto);
+
+                    Session["Lista"] = listaProd2;
                 }
                 else
                 {
-                    FreezerDados fDados = new FreezerDados();
-                    Estoque e = new Estoque();
-                    e.Produto = pDto.Produto;
-                    e.Freezer = fDados.ObterPorId(model.IdFreezer);
-                    e.Quantidade = model.Quantidade;
-                    if(e.Produto != null && e.Freezer != null)
-                    eDados.Inserir(e);
-                    else
+                    ViewBag.Mensagem = "A quantidade que você tentou inserir não condiz com a compra efetuada.";
+                    if (Session["Lista"] != null)
                     {
-                        ViewBag.Mensagem = "Você deve preencher todo o formulário.";
-                        if (Session["Lista"] != null)
-                        {
-                            CompraModel cm = new CompraModel();
-                            cm.ListagemProdutosCompra = (List<ProdutoDto>)Session["Lista"];
+                        CompraModel cm = new CompraModel();
+                        cm.ListagemProdutosCompra = (List<ProdutoDto>)Session["Lista"];
 
-                            return View("ArmazenamentoCompra", cm);
-                        }
+                        return View("ArmazenamentoCompra", cm);
                     }
                 }
-                pDto.Quantidade = pDto.Quantidade - model.Quantidade;
-                Session["Produto"] = pDto;
-
-                List<ProdutoDto> listaProd = (List<ProdutoDto>)Session["Lista"];
-                List<ProdutoDto> listaProd2 = new List<ProdutoDto>();
-                Session["Lista"] = null;
-                foreach (ProdutoDto p in listaProd)
-                {
-                    if (p.Produto.Id != pDto.Produto.Id)
-                    {
-                        listaProd2.Add(p);
-                    }
-                }
-                if (pDto.Quantidade != 0)
-                    listaProd2.Add(pDto);
-
-                Session["Lista"] = listaProd2;
             }
             else
             {
-                ViewBag.Mensagem = "A quantidade que você tentou inserir não condiz com a compra efetuada.";
+                ViewBag.Mensagem = "A quantidade digitada é inválida.";
                 if (Session["Lista"] != null)
                 {
                     CompraModel cm = new CompraModel();

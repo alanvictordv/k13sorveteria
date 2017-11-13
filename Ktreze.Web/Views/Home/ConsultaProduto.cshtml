@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Ktreze.Web.Models.ProdutoModel>
 
 @{
-    ViewBag.Title = "ConsultaProduto";
+    ViewBag.Title = "Produtos";
 }
 
-<h2>ConsultaProduto</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
     @Html.ActionLink("Novo Produto", "CadastroProduto", "", new { @class = "btn btn-success btn-sm" })

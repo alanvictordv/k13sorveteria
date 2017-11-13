@@ -1,21 +1,24 @@
 ﻿@model Ktreze.Web.Models.CadastroArmazenamentoVendaModel
 
 @{
-    ViewBag.Title = "SelecionaArmazenamentoVenda";
+    ViewBag.Title = "Seleção de freezer para a retirada de produtos";
 }
 
 <h2>SelecionaArmazenamentoVenda</h2>
 <h3>Nome do produto: <strong>@ViewBag.NomeProd</strong></h3>
 <h3>Quantidade para retirar: <strong>@ViewBag.QuantProd</strong></h3>
 <br />
-@foreach(var e in Model.listaFreezerDisp)
+@foreach (var e in Model.listaFreezerDisp)
 {
-    <h3><strong>@e.Quantidade</strong> disponíveis no freezer @e.Freezer.Numeracao</h3>
+    if (e.Quantidade > 0)
+    {
+        <h3><strong>@e.Quantidade</strong> disponíveis no freezer @e.Freezer.Numeracao</h3>
+    }
 }
-@using (Html.BeginForm("ArmazenaVenda", "Venda", FormMethod.Post)) 
+@using (Html.BeginForm("ArmazenaVenda", "Venda", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

@@ -1,7 +1,7 @@
 ﻿@model CadastroCompraModel
 
 @{
-    ViewBag.Title = "AdicaoProduto";
+    ViewBag.Title = "Adição de produto à compra";
 }
 
 <h2>AdicaoProduto</h2>
@@ -38,6 +38,7 @@
     </div>
     <p>
         @ViewBag.MensagemCompra
+        <span class="erro">@ViewBag.MensagemCompraErro</span>
     </p>
 }
 

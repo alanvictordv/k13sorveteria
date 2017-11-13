@@ -66,7 +66,12 @@ namespace Ktreze.Web.Models
                 estAux.Produto = new ProdutoDados().ObterPorId(e.Produto.Id);
                 estAux.Quantidade = e.Quantidade;
 
+                if(estAux.Quantidade > 0)
                 lista.Add(estAux);
+                else
+                {
+                    eDados.Excluir(estAux);
+                }
             }
             return lista;
         }
