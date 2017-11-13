@@ -54,7 +54,23 @@ namespace Ktreze.Web.Models
 
         public List<SelectListItem> ListaFreezer { get; set; }
 
-        public List<Estoque> listFreezerDisp { get; set; }
+        public List<Estoque> listarFreezerDisp(int id)
+        {
+            EstoqueDados eDados = new EstoqueDados();
+            List<Estoque> lista = new List<Estoque>();
+            List<Estoque> listaAux = eDados.ObterFreezersPorProduto(id);
+            foreach (Estoque e in listaAux)
+            {
+                Estoque estAux = new Estoque();
+                estAux.Freezer = new FreezerDados().ObterPorId(e.Freezer.Id);
+                estAux.Produto = new ProdutoDados().ObterPorId(e.Produto.Id);
+                estAux.Quantidade = e.Quantidade;
+
+                lista.Add(estAux);
+            }
+            return lista;
+        }
+        public List<Estoque> listaFreezerDisp { get; set; }
 
         public int Quantidade { get; set; }
     }

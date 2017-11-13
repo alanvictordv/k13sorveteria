@@ -8,16 +8,15 @@
 <h3>Nome do produto: <strong>@ViewBag.NomeProd</strong></h3>
 <h3>Quantidade para retirar: <strong>@ViewBag.QuantProd</strong></h3>
 <br />
-@foreach(var e in Model.listFreezerDisp)
+@foreach(var e in Model.listaFreezerDisp)
 {
-    <h3>Temos @e.Quantidade disponíveis no freezer: @e.Freezer.Numeracao</h3>
+    <h3><strong>@e.Quantidade</strong> disponíveis no freezer @e.Freezer.Numeracao</h3>
 }
 @using (Html.BeginForm("ArmazenaVenda", "Venda", FormMethod.Post)) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>CadastroArmazenamentoVendaModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

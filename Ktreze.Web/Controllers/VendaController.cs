@@ -122,16 +122,14 @@ namespace Ktreze.Web.Controllers
             
             List<SelectListItem> listaCombo = new List<SelectListItem>();
 
-            List<Estoque> listaAux = eDados.ObterFreezersPorProduto(id);
-                        
+            List<Estoque> listaAux = cam.listarFreezerDisp(id);
+
             foreach (Estoque e in listaAux)
             {
                 Estoque estAux = new Estoque();
-                estAux.Freezer = new FreezerDados().ObterPorId(e.Freezer.Id);
-                estAux.Produto = new ProdutoDados().ObterPorId(e.Produto.Id);
+                estAux.Freezer = e.Freezer;
+                estAux.Produto = e.Produto;
                 estAux.Quantidade = e.Quantidade;
-
-                cam.listFreezerDisp.Add(estAux);
 
                 SelectListItem item = new SelectListItem();
                 item.Value = estAux.Freezer.Id.ToString();
@@ -139,6 +137,7 @@ namespace Ktreze.Web.Controllers
                 listaCombo.Add(item);
             }
 
+            cam.listaFreezerDisp = cam.listarFreezerDisp(id);
             cam.ListaFreezer = listaCombo;
 
             return View(cam);
