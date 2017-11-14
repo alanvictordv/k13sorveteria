@@ -1,69 +1,101 @@
 ﻿@model Ktreze.Web.Models.CompraModel
 
+@section head{
+    <link href="~/Content/datatables.min.css" rel="stylesheet" />
+}
+
 @{
     ViewBag.Title = "Compra";
 }
 
-<h2>ConsultaCompra</h2>
+<h2>@ViewBag.Title</h2>
 
 <div>
     <div>@Html.ActionLink("Adicionar Produto", "AdicaoProduto", "", new { @class = "btn btn-success btn-sm" })</div>
-    
-        @if (Model != null && Model.ListagemProdutosCompra != null)
-        {
-            @*<div>
-                    @Html.ActionLink("Gerar Relatorio", "GeraRelatorio2", "", new { @class = "btn btn-success" })
-                    @Html.ActionLink("Gerar Gráfico", "GerarGrafico", "", new { @class = "btn btn-success" })
-                </div>*@
 
-        if (Model.ListagemProdutosCompra.Count > 0)
-        {
-            <div class="tabela">
-                <table class="table table-hover" id="conteudo">
-                    <thead>
+    @if (Model != null && Model.ListagemProdutosCompra != null)
+    {
+        @*<div>
+                @Html.ActionLink("Gerar Relatorio", "GeraRelatorio2", "", new { @class = "btn btn-success" })
+                @Html.ActionLink("Gerar Gráfico", "GerarGrafico", "", new { @class = "btn btn-success" })
+            </div>*@
+
+    if (Model.ListagemProdutosCompra.Count > 0)
+    {
+        <div class="tabela">
+            <table class="table table-hover" id="conteudo">
+                <thead>
+                    <tr>
+                        <th>Código do Produto</th>
+                        <th>Nome</th>
+                        <th>Preço de Compra</th>
+                        <th>Quantidade</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var t in Model.ListagemProdutosCompra)
+                    {
                         <tr>
-                            <th>Código do Produto</th>
-                            <th>Nome</th>
-                            <th>Preço de Compra</th>
-                            <th>Quantidade</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var t in Model.ListagemProdutosCompra)
-                        {
-                            <tr>
-                                <td> @t.Produto.Codigo</td>
-                                <td> @t.Produto.Nome </td>
-                                <td> @t.Produto.PrecoCompra </td>
-                                <td>@t.Quantidade</td>
+                            <td> @t.Produto.Codigo</td>
+                            <td> @t.Produto.Nome </td>
+                            <td> @t.Produto.PrecoCompra </td>
+                            <td>@t.Quantidade</td>
 
-                                <td>
-                                    @Html.ActionLink("Excluir", "Deletar",
+                            <td>
+                                @Html.ActionLink("Excluir", "Deletar",
                                 new { id = t.Produto.Id },
                                 new { @class = "btn btn-danger btn-xs" })
-                                </td>
+                            </td>
 
-                            </tr>
-                        }
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="7"> Registros: @Model.ListagemProdutosCompra.Count </td>
                         </tr>
-                        <tr>
-                            <td colspan="7"><h4 class="text-success"> Preco total: @Model.Acumulador() </h4></td>
-                        </tr>                        
-                    </tfoot>
-                </table>
-            </div>
-            @Html.ActionLink("Finalizar Compra", "FinalizaCompra", "", new { @class = "btn btn-primary btn-md" })
+                    }
+                </tbody>
+            </table>
+            <h4 class="text-success"> Preco total: @Model.Acumulador() </h4>
+        </div>
+        @Html.ActionLink("Finalizar Compra", "FinalizaCompra", "", new { @class = "btn btn-primary btn-md" })
+    }
+    else
+    {
+        <h4>Nenhum produto selecionado.</h4>
         }
-        else
-        {
-            <h4>Nenhum produto selecionado.</h4>
-            }
-        }
+    }
 
     @*</div>*@
 </div>
+
+@section scripts{
+    <script src="~/Scripts/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#conteudo').dataTable({
+                "order": [[0, "desc"]],
+                language: {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ Resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+
+        });
+    </script>
+}

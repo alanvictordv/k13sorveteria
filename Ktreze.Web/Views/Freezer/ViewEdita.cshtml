@@ -4,14 +4,13 @@
     ViewBag.Title = "Edição de Freezer";
 }
 
-<h2>ViewEdita</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("EditaFreezer", "Freezer", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>FreezerModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)

@@ -4,7 +4,7 @@
     ViewBag.Title = "Seleção de freezer para o armazenamento de produtos";
 }
 
-<h2>SelecionaArmazenamentoCompra</h2>
+<h2>@ViewBag.Title</h2>
 <h3>Nome do produto: <strong>@ViewBag.NomeProd</strong></h3>
 <h3>Quantidade para armazenar: <strong>@ViewBag.QuantProd</strong></h3>
 @using (Html.BeginForm("ArmazenaCompra", "Compra", FormMethod.Post))
@@ -32,7 +32,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Armazenar" class="btn btn-success" />
                 </div>
             </div>
         </div>
@@ -42,5 +42,5 @@
 }
 
 <div>
-    @Html.ActionLink("voltar", "ArmazenamentoCompra")
+    @Html.ActionLink("voltar", "ArmazenamentoCompra", "Compra", new { @class = "btn btn-default" })
 </div>
