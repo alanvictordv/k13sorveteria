@@ -78,9 +78,38 @@ namespace Ktreze.Web.Controllers
         }
         public ActionResult DeletarProduto(int id)
         {
+            List<Estoque> listaEst = new EstoqueDados().ObterFreezersPorProduto(id);
             ProdutoDados pDados = new ProdutoDados();
-            Produto p = pDados.ObterPorId(id);
-            pDados.Excluir(p);
+
+            foreach (Estoque e in listaEst)
+            {
+                if(e.Quantidade == 0)
+                {
+                    new EstoqueDados().Excluir(e);
+                }
+                else
+                {
+                    ViewBag.MensagemErro = "Você não pode excluir um produto que tenha no estoque.";
+
+                    List<ProdutoModel> listpm = new List<ProdutoModel>();
+                    List<Produto> lista = (List<Produto>)pDados.ListarTodos();
+
+                    foreach (Produto p in lista)
+                    {
+                        ProdutoModel pm = new ProdutoModel();
+                        pm.Id = p.Id;
+                        pm.Codigo = p.Codigo;
+                        pm.Nome = p.Nome;
+                        pm.PrecoCompra = p.PrecoCompra;
+                        pm.PrecoVenda = p.PrecoVenda;
+
+                        listpm.Add(pm);
+                    }
+                    return View("ConsultaProduto", listpm);
+                }
+            }
+                Produto prod = pDados.ObterPorId(id);
+                pDados.Excluir(prod);
 
             return RedirectToAction("ConsultaProduto");
         }
