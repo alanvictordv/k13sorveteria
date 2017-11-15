@@ -1,12 +1,12 @@
-﻿@model CadastroCompraModel
+﻿@model Ktreze.Web.Models.CadastroVendaModel
 
 @{
-    ViewBag.Title = "Adição de produto à compra";
+    ViewBag.Title = "Adição de produto à venda";
 }
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("AdicionarProduto", "Compra", FormMethod.Post)) 
+@using (Html.BeginForm("AdicionarProduto", "Venda", FormMethod.Post)) 
 {
     @Html.AntiForgeryToken()
     
@@ -36,13 +36,13 @@
         </div>
     </div>
     <p class="success">
-        @ViewBag.MensagemCompra
-        <span class="erro">@ViewBag.MensagemCompraErro</span>
+        @ViewBag.MensagemVenda
+        <span class="erro">@ViewBag.MensagemVendaErro</span>
     </p>
 }
 
 <div>
-    @Html.ActionLink("Voltar", "ConsultaCompra", "Compra", new { @class = "btn btn-default" })
+    @Html.ActionLink("Voltar", "ConsultaVenda", "Venda", new { @class = "btn btn-default" })
 </div>
 
 @section Scripts {

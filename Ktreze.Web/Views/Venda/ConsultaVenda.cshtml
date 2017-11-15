@@ -1,11 +1,11 @@
-﻿@model Ktreze.Web.Models.CompraModel
+﻿@model Ktreze.Web.Models.VendaModel
 
 @section head{
     <link href="~/Content/datatables.min.css" rel="stylesheet" />
 }
 
 @{
-    ViewBag.Title = "Compra";
+    ViewBag.Title = "Venda";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -13,14 +13,14 @@
 <div>
     <div>@Html.ActionLink("Adicionar Produto", "AdicaoProduto", "", new { @class = "btn btn-success btn-sm" })</div>
 
-    @if (Model != null && Model.ListagemProdutosCompra != null)
+    @if (Model != null && Model.ListagemProdutosVenda != null)
     {
         @*<div>
                 @Html.ActionLink("Gerar Relatorio", "GeraRelatorio2", "", new { @class = "btn btn-success" })
                 @Html.ActionLink("Gerar Gráfico", "GerarGrafico", "", new { @class = "btn btn-success" })
             </div>*@
 
-    if (Model.ListagemProdutosCompra.Count > 0)
+    if (Model.ListagemProdutosVenda.Count > 0)
     {
         <div class="tabela">
             <table class="table table-hover" id="conteudo">
@@ -28,18 +28,18 @@
                     <tr>
                         <th>Código do Produto</th>
                         <th>Nome</th>
-                        <th>Preço de Compra</th>
+                        <th>Preço de Venda</th>
                         <th>Quantidade</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var t in Model.ListagemProdutosCompra)
+                    @foreach (var t in Model.ListagemProdutosVenda)
                     {
                         <tr>
                             <td> @t.Produto.Codigo</td>
                             <td> @t.Produto.Nome </td>
-                            <td> @t.Produto.PrecoCompra </td>
+                            <td> @t.Produto.PrecoVenda </td>
                             <td>@t.Quantidade</td>
 
                             <td>
@@ -51,10 +51,18 @@
                         </tr>
                     }
                 </tbody>
+                @*<tfoot>
+                    <tr>
+                        <td colspan="7"> Registros: @Model.ListagemProdutosVenda.Count </td>
+                    </tr>
+                    <tr>
+                        <td colspan="7"><h4 class="text-success"> Preco total: @Model.Acumulador() </h4></td>
+                    </tr>
+                </tfoot>*@
             </table>
             <h4 class="text-success"> Preco total: @Model.Acumulador() </h4>
         </div>
-        @Html.ActionLink("Finalizar Compra", "FinalizaCompra", "", new { @class = "btn btn-primary btn-md" })
+            @Html.ActionLink("Finalizar Venda", "FinalizaVenda", "", new { @class = "btn btn-primary btn-md" })
     }
     else
     {

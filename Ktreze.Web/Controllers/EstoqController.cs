@@ -28,6 +28,9 @@ namespace Ktreze.Web.Controllers
 
             foreach (Estoque e in lista)
             {
+                if (e.Quantidade == 0)
+                    eDados.Excluir(e);
+
                 Produto p = pDados.ObterPorId(e.Produto.Id);
                 Freezer f = fDados.ObterPorId(e.Freezer.Id);
                 EstoqueModel em = new EstoqueModel();

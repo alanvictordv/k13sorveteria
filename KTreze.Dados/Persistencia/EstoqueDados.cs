@@ -12,13 +12,12 @@ namespace KTreze.Dados.Persistencia
 {
     public class EstoqueDados : GenericoDados<Estoque, Int32>
     {
-        public List<Estoque> ObterPorIdComposto(int IdProd, int IdFreezer)
+        public List<Estoque> ObterFreezersPorProduto(int IdProd)
         {
             using (ISession s = HibernateUtil.GetSessionFactory().OpenSession())
             {
                 var query = from t in s.Query<Estoque>()
-                            where t.Produto.Id == IdProd &&
-                            t.Freezer.Id == IdFreezer
+                            where t.Produto.Id == IdProd
                             select t;
 
                 List<Estoque> lista = new List<Estoque>();
@@ -34,6 +33,17 @@ namespace KTreze.Dados.Persistencia
                     lista.Add(e);
                 }
                 return lista;
+            }
+        }
+        public Estoque ObterPorIdComposto(int IdProd, int IdFreezer)
+        {
+            using (ISession s = HibernateUtil.GetSessionFactory().OpenSession())
+            {
+                var query = s.Query<Estoque>()
+                            .Where(p => p.Produto.Id == IdProd && p.Freezer.Id == IdFreezer)
+                            .FirstOrDefault();
+
+                return query;
             }
         }
     }

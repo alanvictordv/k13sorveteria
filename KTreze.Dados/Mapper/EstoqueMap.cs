@@ -19,8 +19,8 @@ namespace KTreze.Dados.Mapper
 
             Map(p => p.Quantidade, "quantidade").Not.Nullable();
 
-            References(p => p.Produto).Column("id_prod");
-            References(p => p.Freezer).Column("id_freezer");
+            References(p => p.Produto).Column("id_prod").Not.Insert();
+            References(p => p.Freezer).Column("id_freezer").Not.Insert();
         }
     }
 }

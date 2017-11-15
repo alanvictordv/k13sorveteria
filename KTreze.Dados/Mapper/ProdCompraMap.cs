@@ -19,8 +19,8 @@ namespace KTreze.Dados.Mapper
 
             Map(p => p.Quantidade, "quantidade").Not.Nullable();
 
-            References(p => p.Produto).Column("id_prod");
-            References(p => p.Compra).Column("id_compra");
+            References(p => p.Produto).Column("id_prod").Not.Insert();
+            References(p => p.Compra).Column("id_compra").Not.Insert();
 
             //    public class TestChildMap : ClassMap<TestChild>
             //{

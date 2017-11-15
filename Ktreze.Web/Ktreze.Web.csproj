@@ -163,6 +163,7 @@
     <Compile Include="Controllers\EstoqController.cs" />
     <Compile Include="Controllers\FreezerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\VendaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -170,13 +171,16 @@
     <Compile Include="Models\EstoqueModel.cs" />
     <Compile Include="Models\FreezerModel.cs" />
     <Compile Include="Models\ProdutoModel.cs" />
+    <Compile Include="Models\VendaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.k13.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\datatables.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -195,6 +199,7 @@
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.js" />
@@ -232,6 +237,14 @@
     <Content Include="Views\Estoq\ConsultaEstoque.cshtml" />
     <Content Include="Views\Compra\ConsultaCompra.cshtml" />
     <Content Include="Views\Compra\AdicaoProduto.cshtml" />
+    <Content Include="Views\Compra\ArmazenamentoCompra.cshtml" />
+    <Content Include="Views\Compra\SelecionaArmazenamentoCompra.cshtml" />
+    <Content Include="Views\Home\ViewEdita.cshtml" />
+    <Content Include="Views\Freezer\ViewEdita.cshtml" />
+    <Content Include="Views\Venda\ConsultaVenda.cshtml" />
+    <Content Include="Views\Venda\AdicaoProduto.cshtml" />
+    <Content Include="Views\Venda\ArmazenamentoVenda.cshtml" />
+    <Content Include="Views\Venda\SelecionaArmazenamentoVenda.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

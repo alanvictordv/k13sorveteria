@@ -68,5 +68,37 @@ namespace Ktreze.Web.Controllers
 
             return RedirectToAction("ConsultaFreezer");
         }
+        public ActionResult ViewEdita(int id)
+        {
+            FreezerDados fDados = new FreezerDados();
+            Freezer f = fDados.ObterPorId(id);
+
+            FreezerModel model = new FreezerModel();
+
+            model.Id = f.Id;
+            model.Numeracao = f.Numeracao;
+            model.Descricao = f.Descricao;
+
+            return View(model);
+        }
+        public ActionResult EditaFreezer(FreezerModel model)
+        {
+            try
+            {
+                FreezerDados fDados = new FreezerDados();
+                Freezer f = new Freezer();
+
+                f.Id = model.Id;
+                f.Numeracao = model.Numeracao;
+                f.Descricao = model.Descricao;
+
+                fDados.Alterar(f);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Mensagem = e.Message;
+            }
+            return RedirectToAction("ConsultaFreezer");
+        }
     }
 }
