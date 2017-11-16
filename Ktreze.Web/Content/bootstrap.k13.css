@@ -7,3 +7,10 @@
 .tabela {
     padding-top: 30px;
 }
+/*.jumbotron {
+    background-color: palegreen;
+}*/
+.bg-azul {
+    background-color: skyblue;
+    padding-bottom: 20px;
+}
