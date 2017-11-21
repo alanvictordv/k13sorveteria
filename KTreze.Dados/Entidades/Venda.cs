@@ -10,7 +10,7 @@ namespace KTreze.Dados.Entidades
     {
         public virtual int Id { get; set; }
         public virtual decimal? Preco { get; set; }
-        public virtual float Troco { get; set; }
+        public virtual decimal? Troco { get; set; }
         public virtual DateTime DataHora { get; set; }
 
         public virtual ICollection<ProdVenda> ProdVenda { get; set; }
