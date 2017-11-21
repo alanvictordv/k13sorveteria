@@ -84,7 +84,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\HibernateUtil.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Dto\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

@@ -1,19 +1,20 @@
 ﻿@model Ktreze.Web.Models.FreezerModel
 
 @{
-    ViewBag.Title = "Cadastro de Freezer";
+    ViewBag.Title = "Edição de Freezer";
 }
 
 <h2>@ViewBag.Title</h2>
 
-
-@using (Html.BeginForm("CadastrarFreezer", "Freezer", FormMethod.Post))
+@using (Html.BeginForm("EditaFreezer", "Freezer", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
         <div class="form-group">
             @Html.LabelFor(model => model.Numeracao, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -32,19 +33,12 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Criar" class="btn btn-success" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
-        <p class="success">
-            @ViewBag.Mensagem
-        </p>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Voltar", "ConsultaFreezer", "Freezer", new { @class = "btn btn-default" })
+    @Html.ActionLink("voltar", "ConsultaFreezer")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

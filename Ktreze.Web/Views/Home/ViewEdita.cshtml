@@ -1,19 +1,20 @@
 ﻿@model Ktreze.Web.Models.ProdutoModel
 
 @{
-    ViewBag.Title = "Cadastro de Produto";
+    ViewBag.Title = "Edição de Produto";
 }
 
 <h2>@ViewBag.Title</h2>
 
-
-@using (Html.BeginForm("CadastrarProduto", "Home", FormMethod.Post)) 
+@using (Html.BeginForm("EditaProduto", "Home", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
         <div class="form-group">
             @Html.LabelFor(model => model.Codigo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -48,17 +49,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Criar" class="btn btn-success" />
+                <input type="submit" value="Salvar" class="btn btn-success" />
             </div>
         </div>
-        <p class="success">
-            @ViewBag.Mensagem
-        </p>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Voltar", "ConsultaProduto", "Home", new { @class = "btn btn-default" })
+    @Html.ActionLink("voltar", "ConsultaProduto", "Home", new { @class = "btn btn-default" })
 </div>
 
 @section Scripts {
