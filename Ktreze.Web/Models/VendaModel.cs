@@ -20,6 +20,11 @@ namespace Ktreze.Web.Models
             }
             return num;
         }
+
+        public decimal? AcumuladorPorProduto(ProdutoDto p)
+        {
+            return p.Produto.PrecoVenda * p.Quantidade;
+        }
     }
     public class CadastroVendaModel
     {

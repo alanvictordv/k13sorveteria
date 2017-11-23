@@ -30,6 +30,7 @@
                         <th>Nome</th>
                         <th>Preço de Compra</th>
                         <th>Quantidade</th>
+                        <th>Preço por Produto</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -41,6 +42,7 @@
                             <td> @t.Produto.Nome </td>
                             <td> @t.Produto.PrecoCompra </td>
                             <td>@t.Quantidade</td>
+                            <td>@Model.AcumuladorPorProduto(t)</td>
 
                             <td>
                                 @Html.ActionLink("Excluir", "Deletar",
