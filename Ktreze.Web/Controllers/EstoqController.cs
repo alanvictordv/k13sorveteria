@@ -17,6 +17,18 @@ namespace Ktreze.Web.Controllers
             return View();
         }
 
+        public ActionResult InstanciaConsulta()
+        {
+            EstoqueDados eDados = new EstoqueDados();
+            List<Estoque> lista = (List<Estoque>)eDados.ListarTodos();
+            foreach (Estoque e in lista)
+            {
+                if (e.Quantidade == 0)
+                    eDados.Excluir(e);
+            }
+            return RedirectToAction("ConsultaEstoque");
+        }
+
         public ActionResult ConsultaEstoque()
         {
             EstoqueDados eDados = new EstoqueDados();
@@ -28,8 +40,8 @@ namespace Ktreze.Web.Controllers
 
             foreach (Estoque e in lista)
             {
-                if (e.Quantidade == 0)
-                    eDados.Excluir(e);
+                //if (e.Quantidade == 0)
+                //    eDados.Excluir(e);
 
                 Produto p = pDados.ObterPorId(e.Produto.Id);
                 Freezer f = fDados.ObterPorId(e.Freezer.Id);

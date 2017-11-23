@@ -29,7 +29,8 @@ namespace Ktreze.Web.Controllers
         }
         public ActionResult AdicionarProduto(CadastroVendaModel model)
         {
-            if (model.Quantidade > 0)
+            int QuantDisponivel = new EstoqueDados().ObterQuantidadePorId(model.IdProduto);
+            if (model.Quantidade > 0 && model.Quantidade <= QuantDisponivel)
             {
                 List<ProdutoDto> listaProd = new List<ProdutoDto>();
                 if (Session["ListaVenda"] != null)
@@ -54,7 +55,7 @@ namespace Ktreze.Web.Controllers
             else
             {
                 ModelState.Clear();
-                ViewBag.MensagemVendaErro = "A quantidade digitada é inválida.";
+                ViewBag.MensagemVendaErro = "A quantidade digitada é inválida ou não existe no estoque.";
                 ViewBag.MensagemVenda = null;
             }
 
