@@ -35,18 +35,33 @@ namespace Ktreze.Web.Controllers
                 List<ProdutoDto> listaProd = new List<ProdutoDto>();
                 if (Session["Lista"] != null)
                     listaProd = (List<ProdutoDto>)Session["Lista"];
+                List<ProdutoDto> listaProd2 = new List<ProdutoDto>();
 
-                ProdutoDto pDto = new ProdutoDto();
-                ProdutoDados pDados = new ProdutoDados();
-                Produto p = pDados.ObterPorId(model.IdProduto);
+                int cont = 0;
+                foreach (ProdutoDto pdto in listaProd)
+                {
+                    if (pdto.Produto.Id == model.IdProduto)
+                    {
+                        cont++;
+                        pdto.Quantidade += model.Quantidade;
+                    }
 
-                pDto.Produto = p;
-                pDto.Quantidade = model.Quantidade;
-                listaProd.Add(pDto);
+                    listaProd2.Add(pdto);
+                }
 
+                if (cont == 0)
+                {
+                    ProdutoDto pDto = new ProdutoDto();
+                    ProdutoDados pDados = new ProdutoDados();
+                    Produto p = pDados.ObterPorId(model.IdProduto);
+
+                    pDto.Produto = p;
+                    pDto.Quantidade = model.Quantidade;
+                    listaProd2.Add(pDto);
+                }
                 CompraModel cm = new CompraModel();
-                cm.ListagemProdutosCompra = listaProd;
-                Session["Lista"] = listaProd;
+                cm.ListagemProdutosCompra = listaProd2;
+                Session["Lista"] = listaProd2;
 
                 ModelState.Clear();
                 ViewBag.MensagemCompra = "Produto adicionado à lista com sucesso.";

@@ -29,23 +29,52 @@ namespace Ktreze.Web.Controllers
         }
         public ActionResult AdicionarProduto(CadastroVendaModel model)
         {
-            if (model.Quantidade > 0)
+            int QuantDisponivel;
+            List<ProdutoDto> listaAux = new List<ProdutoDto>();
+            QuantDisponivel = new EstoqueDados().ObterQuantidadePorId(model.IdProduto);
+            if (Session["ListaVenda"] != null)
+            {
+                listaAux = (List<ProdutoDto>)Session["ListaVenda"];
+                foreach (ProdutoDto pdto in listaAux)
+                {
+                    if (pdto.Produto.Id == model.IdProduto)
+                        QuantDisponivel = QuantDisponivel - pdto.Quantidade;
+                }
+            }
+
+            if (model.Quantidade > 0 && model.Quantidade <= QuantDisponivel)
             {
                 List<ProdutoDto> listaProd = new List<ProdutoDto>();
                 if (Session["ListaVenda"] != null)
                     listaProd = (List<ProdutoDto>)Session["ListaVenda"];
+                List<ProdutoDto> listaProd2 = new List<ProdutoDto>();
 
-                ProdutoDto pDto = new ProdutoDto();
-                ProdutoDados pDados = new ProdutoDados();
-                Produto p = pDados.ObterPorId(model.IdProduto);
+                int cont = 0;
+                foreach (ProdutoDto pdto in listaProd)
+                {
+                    if (pdto.Produto.Id == model.IdProduto)
+                    {
+                        cont++;
+                        pdto.Quantidade += model.Quantidade;
+                    }
 
-                pDto.Produto = p;
-                pDto.Quantidade = model.Quantidade;
-                listaProd.Add(pDto);
+                    listaProd2.Add(pdto);
+                }
+
+                if (cont == 0)
+                {
+                    ProdutoDto pDto = new ProdutoDto();
+                    ProdutoDados pDados = new ProdutoDados();
+                    Produto p = pDados.ObterPorId(model.IdProduto);
+
+                    pDto.Produto = p;
+                    pDto.Quantidade = model.Quantidade;
+                    listaProd2.Add(pDto);
+                }
 
                 VendaModel vm = new VendaModel();
-                vm.ListagemProdutosVenda = listaProd;
-                Session["ListaVenda"] = listaProd;
+                vm.ListagemProdutosVenda = listaProd2;
+                Session["ListaVenda"] = listaProd2;
 
                 ModelState.Clear();
                 ViewBag.MensagemVenda = "Produto adicionado à lista com sucesso.";
@@ -54,7 +83,7 @@ namespace Ktreze.Web.Controllers
             else
             {
                 ModelState.Clear();
-                ViewBag.MensagemVendaErro = "A quantidade digitada é inválida.";
+                ViewBag.MensagemVendaErro = "A quantidade digitada é inválida ou não está disponível no estoque.";
                 ViewBag.MensagemVenda = null;
             }
 

@@ -13,7 +13,7 @@ namespace Ktreze.Web.Models
     {
         public List<ProdutoDto> ListagemProdutosCompra { get; set; }
 
-            public decimal? Acumulador()
+        public decimal? Acumulador()
         {
             decimal? num = 0;
             foreach (ProdutoDto p in ListagemProdutosCompra)
@@ -21,6 +21,11 @@ namespace Ktreze.Web.Models
                 num += p.Produto.PrecoCompra * p.Quantidade;
             }
             return num;
+        }
+
+        public decimal? AcumuladorPorProduto(ProdutoDto p)
+        {
+            return p.Produto.PrecoCompra * p.Quantidade;
         }
     }
 }

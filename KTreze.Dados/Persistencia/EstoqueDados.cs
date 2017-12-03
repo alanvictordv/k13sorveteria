@@ -46,5 +46,22 @@ namespace KTreze.Dados.Persistencia
                 return query;
             }
         }
+        public int ObterQuantidadePorId(int IdProd)
+        {
+            using (ISession s = HibernateUtil.GetSessionFactory().OpenSession())
+            {
+                var query = from t in s.Query<Estoque>()
+                            where t.Produto.Id == IdProd
+                            select t;
+
+                int quantidade = 0;
+
+                foreach (var t in query.ToList())
+                {
+                    quantidade += t.Quantidade;
+                }
+                return quantidade;
+            }
+        }
     }
 }
