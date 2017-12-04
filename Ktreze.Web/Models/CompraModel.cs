@@ -32,6 +32,8 @@ namespace Ktreze.Web.Models
 
 public class CadastroCompraModel
 {
+    [Required(ErrorMessage = "Por favor, informe o produto.")]
+    [Display(Name = "Produto: ")]
     public int IdProduto { get; set; }
 
     public List<SelectListItem> ListaProduto
@@ -53,19 +55,26 @@ public class CadastroCompraModel
             return lista;
         }
     }
-
+    [Required(ErrorMessage = "Por favor, informe a quantidade do produto.")]
+    [Display(Name = "Quantidade: ")]
     public int Quantidade { get; set; }
 }
 
 public class ProdutoDto
 {
+    [Required(ErrorMessage = "Por favor, informe o produto.")]
+    [Display(Name = "Produto: ")]
     public Produto Produto { get; set; }
 
+    [Required(ErrorMessage = "Por favor, informe a quantidade do produto.")]
+    [Display(Name = "Quantidade: ")]
     public int Quantidade { get; set; }
 }
 
 public class CadastroArmazenamentoModel
 {
+    [Required(ErrorMessage = "Por favor, informe o freezer.")]
+    [Display(Name = "Freezer: ")]
     public int IdFreezer { get; set; }
 
     public List<SelectListItem> ListaFreezer
@@ -87,6 +96,7 @@ public class CadastroArmazenamentoModel
             return lista;
         }
     }
-
+    [Required(ErrorMessage = "Por favor, informe a quantidade do produto.")]
+    [Display(Name = "Quantidade: ")]
     public int Quantidade { get; set; }
 }

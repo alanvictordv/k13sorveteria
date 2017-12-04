@@ -43,6 +43,7 @@ namespace Ktreze.Web.Controllers
                 prod.Nome = model.Nome;
                 prod.PrecoCompra = model.PrecoCompra;
                 prod.PrecoVenda = model.PrecoVenda;
+                prod.PontoReposicao = model.PontoReposicao;
 
                 pDados.Inserir(prod);
 
@@ -70,6 +71,7 @@ namespace Ktreze.Web.Controllers
                 pm.Nome = p.Nome;
                 pm.PrecoCompra = p.PrecoCompra;
                 pm.PrecoVenda = p.PrecoVenda;
+                pm.PontoReposicao = p.PontoReposicao;
 
                 listpm.Add(pm);
             }
@@ -102,6 +104,7 @@ namespace Ktreze.Web.Controllers
                         pm.Nome = p.Nome;
                         pm.PrecoCompra = p.PrecoCompra;
                         pm.PrecoVenda = p.PrecoVenda;
+                        pm.PontoReposicao = p.PontoReposicao;
 
                         listpm.Add(pm);
                     }
@@ -125,6 +128,7 @@ namespace Ktreze.Web.Controllers
             model.Nome = p.Nome;
             model.PrecoCompra = p.PrecoCompra;
             model.PrecoVenda = p.PrecoVenda;
+            model.PontoReposicao = p.PontoReposicao;
 
             return View(model);
         }
@@ -140,6 +144,7 @@ namespace Ktreze.Web.Controllers
                 p.Nome = model.Nome;
                 p.PrecoCompra = model.PrecoCompra;
                 p.PrecoVenda = model.PrecoVenda;
+                p.PontoReposicao = model.PontoReposicao;
 
                 pDados.Alterar(p);
             }

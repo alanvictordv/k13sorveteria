@@ -2,6 +2,7 @@
 using KTreze.Dados.Persistencia;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,6 +29,8 @@ namespace Ktreze.Web.Models
     }
     public class CadastroVendaModel
     {
+        [Required(ErrorMessage = "Por favor, informe o produto.")]
+        [Display(Name = "Produto: ")]
         public int IdProduto { get; set; }
 
         public List<SelectListItem> ListaProduto
@@ -49,12 +52,15 @@ namespace Ktreze.Web.Models
                 return lista;
             }
         }
-
+        [Required(ErrorMessage = "Por favor, informe a quantidade do produto.")]
+        [Display(Name = "Quantidade: ")]
         public int Quantidade { get; set; }
     }
 
     public class CadastroArmazenamentoVendaModel
     {
+        [Required(ErrorMessage = "Por favor, informe o freezer.")]
+        [Display(Name = "Freezer: ")]
         public int IdFreezer { get; set; }
 
         public List<SelectListItem> ListaFreezer { get; set; }
@@ -82,6 +88,8 @@ namespace Ktreze.Web.Models
         }
         public List<Estoque> listaFreezerDisp { get; set; }
 
+        [Required(ErrorMessage = "Por favor, informe a quantidade do produto.")]
+        [Display(Name = "Quantidade: ")]
         public int Quantidade { get; set; }
     }
 }

@@ -27,5 +27,8 @@ namespace Ktreze.Web.Models
         [Display(Name = "Preço de compra:")] //label
         public decimal? PrecoCompra { get; set; } = null; //campo                  
 
+        [Required(ErrorMessage = "Por favor, informe o ponto de reposição.")]
+        [Display(Name = "Ponto de Reposição:")] //label
+        public int PontoReposicao { get; set; } //campo    
     }
 }

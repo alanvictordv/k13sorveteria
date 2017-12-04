@@ -1,4 +1,9 @@
-﻿@model IEnumerable<Ktreze.Web.Models.EstoqueModel>
+﻿<style>
+    .pontorep {
+        color: red;
+    }
+</style>
+@model IEnumerable<Ktreze.Web.Models.EstoqueModel>
 
 @section head{
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -12,6 +17,9 @@
 
 <h2>@ViewBag.Title</h2>
 
+<p>
+    @Html.ActionLink("Ver Relatório de reposição", "ConsultaPonto", "", new { @class = "btn btn-success btn-sm" })
+</p>
 <div class="tabela">
     <table class="table" id="conteudo">
         <thead>
@@ -30,6 +38,9 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Quantidade)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PontoReposicao)
                 </th>
             </tr>
         </thead>
@@ -51,7 +62,10 @@
                         @Html.DisplayFor(modelItem => item.DescFreezer)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Quantidade)
+                        <span id="quantidade">@Html.DisplayFor(modelItem => item.Quantidade)</span>
+                    </td>
+                    <td>
+                        <span id="ponto">@Html.DisplayFor(modelItem => item.PontoReposicao)</span>
                     </td>
                 </tr>
             }
@@ -100,7 +114,6 @@
                 "dom": 'Bfrtip',
                 "buttons": ['excel', 'pdf', 'print']
             });
-
-        });
+        });    
     </script>
 }

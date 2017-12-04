@@ -20,6 +20,7 @@ namespace KTreze.Dados.Mapper
             Map(p => p.Nome, "nome").Length(50).Not.Nullable();
             Map(p => p.PrecoVenda, "preco_venda").Not.Nullable();
             Map(p => p.PrecoCompra, "preco_compra").Not.Nullable();
+            Map(p => p.PontoReposicao, "ponto").Not.Nullable();
 
             HasMany(p => p.ProdCompra).KeyColumn("id_prod").Inverse();
             HasMany(p => p.ProdVenda).KeyColumn("id_prod").Inverse();
